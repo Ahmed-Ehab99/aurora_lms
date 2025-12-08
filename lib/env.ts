@@ -15,6 +15,8 @@ export const env = createEnv({
     GITHUB_CLIENT_SECRET: z.string().min(1),
 
     RESEND_API_KEY: z.string().min(1),
+
+    ARCJET_KEY: z.string().min(1),
   },
   experimental__runtimeEnv: {},
 });
