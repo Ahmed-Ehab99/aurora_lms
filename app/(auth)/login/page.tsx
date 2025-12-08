@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,11 +5,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import SigninEmail from "./_components/SigninEmail";
 import SigninGithubBtn from "./_components/SigninGithubBtn";
 import SigninGoogleBtn from "./_components/SigninGoogleBtn";
 
@@ -26,7 +24,9 @@ const LoginPage = async () => {
       <CardHeader>
         <CardTitle className="text-xl">Welcome back!</CardTitle>
 
-        <CardDescription>Login with your Github, Google or Email Account</CardDescription>
+        <CardDescription>
+          Login with your Github, Google or Email Account
+        </CardDescription>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
@@ -42,14 +42,7 @@ const LoginPage = async () => {
           </span>
         </div>
 
-        <div className="grid gap-3">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input type="email" placeholder="m@example.com" />
-          </div>
-
-          <Button>Continue with Email</Button>
-        </div>
+        <SigninEmail />
       </CardContent>
     </Card>
   );

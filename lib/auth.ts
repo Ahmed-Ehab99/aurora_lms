@@ -1,7 +1,11 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { emailOTP } from "better-auth/plugins";
+import { Resend } from "resend";
 import { prisma } from "./db";
 import { env } from "./env";
+
+const resend = new Resend(env.RESEND_API_KEY);
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -21,4 +25,16 @@ export const auth = betterAuth({
       clientSecret: env.GITHUB_CLIENT_SECRET,
     },
   },
+  plugins: [
+    emailOTP({
+      async sendVerificationOTP({ email, otp }) {
+        await resend.emails.send({
+          from: "AuroraLMS <onboarding@resend.dev>",
+          to: [email],
+          subject: "AuroraLMS - Verify your email",
+          html: `<p>Your OTP is <strong>${otp}</strong></p>`,
+        });
+      },
+    }),
+  ],
 });

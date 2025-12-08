@@ -13,11 +13,11 @@ const SignoutBtn = () => {
       fetchOptions: {
         onSuccess: () => {
           router.push("/");
-          toast.success("Signed out Successfully");
+          toast.success("Signed Out Successfully");
         },
         onError: (error) => {
           console.error(error);
-          toast.error(error.error.statusText || "Internal server error");
+          toast.error(error.error.statusText || "Internal Server Error");
         },
       },
     });

@@ -11,18 +11,18 @@ import { toast } from "sonner";
 const SigninGithubBtn = () => {
   const [githubPending, startGithubTransition] = useTransition();
 
-  const signInWithGithub = async () => {
+  const signInWithGithub = () => {
     startGithubTransition(async () => {
       await authClient.signIn.social({
         provider: "github",
         callbackURL: "/",
         fetchOptions: {
           onSuccess: () => {
-            toast.success("Signed in with Github, you will be redirected...");
+            toast.success("Signed In with Github, You will be Redirected...");
           },
           onError: (error) => {
             console.error(error);
-            toast.error(error.error.statusText || "Internal server error");
+            toast.error(error.error.statusText || "Internal Server Error");
           },
         },
       });

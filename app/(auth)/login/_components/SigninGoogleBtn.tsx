@@ -11,7 +11,7 @@ import { toast } from "sonner";
 const SigninGoogleBtn = () => {
   const [googlePending, startGoogleTransition] = useTransition();
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = () => {
     startGoogleTransition(async () => {
       await authClient.signIn.social({
         provider: "google",
