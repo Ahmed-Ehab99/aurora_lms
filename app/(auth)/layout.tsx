@@ -31,7 +31,7 @@ export default function AuthLayout({
           <Image
             src={Logo}
             alt="Logo"
-            className="rounded-lg"
+            className="rounded-xl"
             width={32}
             height={32}
           />
