@@ -1,6 +1,3 @@
-// import { auth } from "@/lib/auth";
-// import { headers } from "next/headers";
-// import { redirect } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -45,13 +42,6 @@ const features: FeaturesT[] = [
 ];
 
 export default async function Home() {
-  // const session = await auth.api.getSession({
-  //   headers: await headers(),
-  // });
-
-  // IF you need to force user to login to use the platform, uncomment blow line
-  // if (!session) redirect("/login");
-
   return (
     <>
       <section className="relative py-20">
@@ -76,7 +66,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <section className="mb-32 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {features.map((feature) => (
           <Card key={feature.id} className="transition-shadow hover:shadow-lg">
             <CardHeader>
