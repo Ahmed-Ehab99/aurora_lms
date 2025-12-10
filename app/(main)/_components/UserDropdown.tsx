@@ -27,14 +27,18 @@ const UserDropdown = ({ name, email, image }: UserDropdownProps) => {
       <DropdownMenuTrigger>
         <Avatar className="cursor-pointer">
           <AvatarImage src={image || ""} alt="Profile Image" />
-          <AvatarFallback>{name[0].toUpperCase()}</AvatarFallback>
+          <AvatarFallback>
+            {name && name.length > 0
+              ? name[0].toUpperCase()
+              : email[0].toUpperCase()}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <span className="text-foreground truncate text-sm font-medium">
-            {name}
+            {name && name.length > 0 ? name : email.split("@")[0]}
           </span>
           <span className="text-muted-foreground truncate text-xs font-normal">
             {email}

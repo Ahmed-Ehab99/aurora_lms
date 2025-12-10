@@ -7,35 +7,40 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { IconCirclePlusFilled, type Icon } from "@tabler/icons-react";
+import {
+  IconCertificate,
+  IconCirclePlusFilled,
+  IconDashboard,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: Icon;
-  }[];
-}) {
-  const pathname = usePathname();
+const navItems = [
+  {
+    title: "Dashboard",
+    url: "/admin",
+    icon: IconDashboard,
+  },
+  {
+    title: "Create Course",
+    url: "/admin/courses/create",
+    icon: IconCirclePlusFilled,
+  },
+  {
+    title: "Courses",
+    url: "/admin/courses",
+    icon: IconCertificate,
+  },
+];
 
-  const allItems = [
-    {
-      title: "Quick Create",
-      url: "/admin/courses/create",
-      icon: IconCirclePlusFilled,
-    },
-    ...items,
-  ];
+export function NavMain() {
+  const pathname = usePathname();
 
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
-          {allItems.map((item) => {
+          {navItems.map((item) => {
             const isActive = pathname === item.url;
 
             return (

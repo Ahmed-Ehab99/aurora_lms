@@ -1,5 +1,3 @@
-"use client";
-
 import { NavMain } from "@/app/admin/_components/nav-main";
 import { NavUser } from "@/app/admin/_components/nav-user";
 import {
@@ -12,25 +10,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Logo from "@/public/logo.webp";
-import { IconCertificate, IconDashboard } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
-
-const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/admin",
-      icon: IconDashboard,
-    },
-    {
-      title: "Courses",
-      url: "/admin/courses",
-      icon: IconCertificate,
-    },
-  ],
-};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -51,7 +33,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

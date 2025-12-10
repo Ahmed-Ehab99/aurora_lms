@@ -24,6 +24,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useSignout } from "@/hooks/use-signout";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
@@ -33,7 +34,7 @@ export function NavUser() {
   const handleSignout = useSignout();
   const { data: session, isPending } = authClient.useSession();
 
-  if (isPending) return null;
+  if (isPending) return <Skeleton className="h-12 w-full" />;
 
   return (
     <SidebarMenu>
