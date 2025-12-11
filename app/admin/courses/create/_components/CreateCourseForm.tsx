@@ -30,6 +30,7 @@ import { PlusIcon, SparkleIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { z } from "zod";
+import RichTextEditor from "./rich-text-editor/RichTextEditor";
 
 const initialValues = {
   title: "",
@@ -127,11 +128,7 @@ const CreateCourseForm = () => {
             <FormItem className="w-full">
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Description"
-                  className="min-h-[120px]"
-                  {...field}
-                />
+                <RichTextEditor field={field} />
               </FormControl>
               <FormMessage />
             </FormItem>

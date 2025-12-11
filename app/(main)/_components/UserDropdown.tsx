@@ -26,7 +26,10 @@ const UserDropdown = ({ name, email, image }: UserDropdownProps) => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="cursor-pointer">
-          <AvatarImage src={image || ""} alt="Profile Image" />
+          <AvatarImage
+            src={image || `https://avatar.vercel.sh/${email}`}
+            alt="Profile Image"
+          />
           <AvatarFallback>
             {name && name.length > 0
               ? name[0].toUpperCase()
