@@ -30,6 +30,7 @@ import { PlusIcon, SparkleIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { z } from "zod";
+import Uploader from "./file-uploader/Uploader";
 import RichTextEditor from "./rich-text-editor/RichTextEditor";
 
 const initialValues = {
@@ -143,7 +144,8 @@ const CreateCourseForm = () => {
             <FormItem className="w-full">
               <FormLabel>Thumbnail Image</FormLabel>
               <FormControl>
-                <Input placeholder="Thumbnail URL" {...field} />
+                {/* <Input placeholder="Thumbnail URL" {...field} /> */}
+                <Uploader />
               </FormControl>
               <FormMessage />
             </FormItem>
