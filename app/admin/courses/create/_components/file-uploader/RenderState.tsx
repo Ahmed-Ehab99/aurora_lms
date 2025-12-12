@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { CloudUpload, ImageIcon } from "lucide-react";
+import { CloudUpload, ImageIcon, Loader, X } from "lucide-react";
+import Image from "next/image";
 
 export const RenderEmptyState = ({
   isDragActive,
@@ -38,6 +39,58 @@ export const RenderErrorState = () => {
       <Button type="button" className="mt-4">
         Retry File Selection
       </Button>
+    </div>
+  );
+};
+
+export const RenderUploadedState = ({
+  previewUrl,
+  isDeleting,
+  handleRemoveFile,
+}: {
+  previewUrl: string;
+  isDeleting: boolean;
+  handleRemoveFile: () => void;
+}) => {
+  return (
+    <div>
+      <Image
+        src={previewUrl}
+        alt="Uploaded File"
+        fill
+        className="object-contain p-2"
+      />
+      <Button
+        variant="destructive"
+        size="icon"
+        onClick={handleRemoveFile}
+        disabled={isDeleting}
+        className={cn("absolute top-4 right-4")}
+      >
+        {isDeleting ? (
+          <Loader className="size-4 animate-spin" />
+        ) : (
+          <X className="size-4" />
+        )}
+      </Button>
+    </div>
+  );
+};
+
+export const RenderUploadingState = ({
+  progress,
+  file,
+}: {
+  progress: number;
+  file: File;
+}) => {
+  return (
+    <div className="flex flex-col items-center justify-center text-center">
+      <p>{progress}</p>
+      <p className="text-foreground mt-2 text-sm font-medium">Uploading...</p>
+      <p className="text-muted-foreground mt-1 max-w-xs truncate text-sm">
+        {file.name}
+      </p>
     </div>
   );
 };

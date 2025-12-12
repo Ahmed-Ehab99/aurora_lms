@@ -6,6 +6,7 @@ import arcjet, {
   shield,
   slidingWindow,
 } from "@arcjet/next";
+import "server-only";
 import { env } from "./env";
 
 export {

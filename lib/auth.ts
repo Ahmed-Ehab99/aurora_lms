@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { emailOTP } from "better-auth/plugins";
 import { Resend } from "resend";
+import "server-only";
 import { prisma } from "./db";
 import { env } from "./env";
 

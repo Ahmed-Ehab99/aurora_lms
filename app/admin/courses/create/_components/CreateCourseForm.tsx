@@ -136,7 +136,7 @@ const CreateCourseForm = () => {
           )}
         />
 
-        {/* FILE KEY */}
+        {/* THUMBNAIL IMAGE */}
         <FormField
           control={form.control}
           name="fileKey"
@@ -144,8 +144,7 @@ const CreateCourseForm = () => {
             <FormItem className="w-full">
               <FormLabel>Thumbnail Image</FormLabel>
               <FormControl>
-                {/* <Input placeholder="Thumbnail URL" {...field} /> */}
-                <Uploader />
+                <Uploader onChange={field.onChange} value={field.value} />
               </FormControl>
               <FormMessage />
             </FormItem>
