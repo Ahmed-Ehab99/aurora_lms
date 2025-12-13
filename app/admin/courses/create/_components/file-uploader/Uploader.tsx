@@ -49,7 +49,6 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
       progress: 0,
     }));
     try {
-      // 1. Get presigned URL
       const presignedResponse = await fetch("/api/s3/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
