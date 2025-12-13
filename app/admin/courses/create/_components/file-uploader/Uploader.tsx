@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
@@ -118,29 +118,26 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
     }
   };
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      if (acceptedFiles.length > 0) {
-        const file = acceptedFiles[0];
-        if (fileState.objectUrl && !fileState.objectUrl.startsWith("http")) {
-          URL.revokeObjectURL(fileState.objectUrl);
-        }
-
-        setFileState({
-          file: file,
-          uploading: false,
-          progress: 0,
-          objectUrl: URL.createObjectURL(file),
-          error: false,
-          id: uuidv4(),
-          isDeleting: false,
-          fileType: "image",
-        });
-        uploadFile(file);
+  const onDrop = (acceptedFiles: File[]) => {
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      if (fileState.objectUrl && !fileState.objectUrl.startsWith("http")) {
+        URL.revokeObjectURL(fileState.objectUrl);
       }
-    },
-    [fileState.objectUrl],
-  );
+
+      setFileState({
+        file: file,
+        uploading: false,
+        progress: 0,
+        objectUrl: URL.createObjectURL(file),
+        error: false,
+        id: uuidv4(),
+        isDeleting: false,
+        fileType: "image",
+      });
+      uploadFile(file);
+    }
+  };
 
   const handleRemoveFile = async () => {
     if (fileState.isDeleting || !fileState.objectUrl) return;
