@@ -22,7 +22,7 @@ const aj = arcjet
     }),
   );
 
-export const CreateCourse = async (
+export const createCourse = async (
   values: CourseSchemaType,
 ): Promise<ApiResponse> => {
   const session = await requireAdmin();

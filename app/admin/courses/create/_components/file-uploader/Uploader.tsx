@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { useConstructUrl } from "@/hooks/use-construct-url";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
@@ -31,6 +32,7 @@ interface UploaderProps {
 }
 
 const Uploader = ({ value, onChange }: UploaderProps) => {
+  const fileUrl = useConstructUrl(value || "");
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
@@ -40,6 +42,7 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
     progress: 0,
     uploading: false,
     key: value,
+    objectUrl: fileUrl,
   });
 
   const uploadFile = async (file: File) => {

@@ -1,5 +1,6 @@
 "use client";
 
+import { AdminCourseSingularType } from "@/app/data/admin/admin-get-course";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -33,32 +34,49 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
-import { createCourse } from "../actions";
-import Uploader from "./file-uploader/Uploader";
-import RichTextEditor from "./rich-text-editor/RichTextEditor";
+import Uploader from "../../../create/_components/file-uploader/Uploader";
+import RichTextEditor from "../../../create/_components/rich-text-editor/RichTextEditor";
+import { editCourse } from "../actions";
 
-const CreateCourseForm = () => {
+interface EditCourseFormProps {
+  course: AdminCourseSingularType;
+}
+
+const EditCourseForm = ({ course }: EditCourseFormProps) => {
+  const {
+    id,
+    category,
+    description,
+    duration,
+    fileKey,
+    level,
+    price,
+    slug,
+    smallDescription,
+    status,
+    title,
+  } = course;
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(courseSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      fileKey: "",
-      price: 1,
-      duration: 1,
-      level: courseLevels[0],
-      category: courseCategories[0],
-      smallDescription: "",
-      slug: "",
-      status: courseStatus[0],
+      title,
+      description,
+      fileKey,
+      price,
+      duration,
+      level,
+      category: category as CourseSchemaType["category"],
+      smallDescription,
+      slug,
+      status,
     },
   });
 
   function onSubmit(values: CourseSchemaType) {
     startTransition(async () => {
-      const { data: result, error } = await tryCatch(createCourse(values));
+      const { data: result, error } = await tryCatch(editCourse(values, id));
 
       if (error) {
         toast.error("An unexpected error occurred. Please try again.");
@@ -317,12 +335,12 @@ const CreateCourseForm = () => {
         <Button type="submit" disabled={isPending}>
           {isPending ? (
             <>
-              Creating...
+              Updating...
               <Loader className="ml-1 animate-spin" />
             </>
           ) : (
             <>
-              Create Course <PlusIcon className="ml-1" size={16} />
+              Update Course <PlusIcon className="ml-1" size={16} />
             </>
           )}
         </Button>
@@ -331,4 +349,4 @@ const CreateCourseForm = () => {
   );
 };
 
-export default CreateCourseForm;
+export default EditCourseForm;
