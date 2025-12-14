@@ -19,7 +19,7 @@ const AdminCardMenu = ({ id, slug }: AdminCardMenuProps) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" size="icon">
-          <MoreVertical className="size-4" />
+          <MoreVertical className="size-4 text-primary" />
         </Button>
       </DropdownMenuTrigger>
 
