@@ -57,7 +57,7 @@ export default async function Home() {
 
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <Button asChild size="lg">
-              <Link href="/courses">Explore Courses</Link>
+              <Link href="/admin/courses">Explore Courses</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link href="/login">Sign In</Link>

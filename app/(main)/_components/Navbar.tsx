@@ -16,7 +16,7 @@ interface NavigationItemT {
 
 const navigationItems: NavigationItemT[] = [
   { id: 1, name: "Home", href: "/" },
-  { id: 2, name: "Courses", href: "/courses" },
+  { id: 2, name: "Courses", href: "/admin/courses" },
   { id: 3, name: "Dashboard", href: "/admin" },
 ];
 
