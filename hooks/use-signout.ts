@@ -6,19 +6,21 @@ export function useSignout() {
   const router = useRouter();
 
   const handleSignout = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Signed Out Successfully");
-          router.refresh();
-          router.push("/");
-        },
-        onError: (error) => {
-          console.error(error);
-          toast.error("Failed to Sign Out");
-        },
-      },
-    });
+    try {
+      // 1️⃣ WAIT for signout to finish
+      await authClient.signOut();
+
+      toast.success("Signed Out Successfully");
+
+      // 2️⃣ Navigate first
+      router.replace("/");
+
+      // 3️⃣ THEN force server re-render
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to Sign Out");
+    }
   };
 
   return handleSignout;

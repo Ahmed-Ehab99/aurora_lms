@@ -1,6 +1,7 @@
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
+// import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export function SiteHeader() {
   return (
@@ -13,7 +14,8 @@ export function SiteHeader() {
         />
         <h1 className="text-base font-medium">AuroraLMS.</h1>
         <div className="ml-auto flex items-center gap-2">
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
+          <AnimatedThemeToggler />
         </div>
       </div>
     </header>

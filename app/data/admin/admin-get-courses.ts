@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import "server-only";
 import { requireAdmin } from "./require-admin";
 
 export const adminGetCourses = async () => {
