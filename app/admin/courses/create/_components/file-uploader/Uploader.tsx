@@ -42,7 +42,7 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
     progress: 0,
     uploading: false,
     key: value,
-    objectUrl: fileUrl,
+    objectUrl: value ? fileUrl : undefined,
   });
 
   const uploadFile = async (file: File) => {

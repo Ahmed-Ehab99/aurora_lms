@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import {
   DndContext,
+  DragEndEvent,
   DraggableSyntheticListeners,
   KeyboardSensor,
   PointerSensor,
@@ -34,7 +35,9 @@ import {
   Trash,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useEffectEvent, useState } from "react";
+import { toast } from "sonner";
+import { reorderChapters, reorderLessons } from "../actions";
 
 interface CourseStructureProps {
   course: AdminCourseSingularType;
@@ -59,22 +62,185 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
       isOpen: true, // Default Chapter is Open
       lessons: chapter.lessons.map((lesson) => ({
         id: lesson.id,
-        title: chapter.title,
-        order: chapter.position,
+        title: lesson.title,
+        order: lesson.position,
       })),
     })) || [];
   const [items, setItems] = useState(initialItems);
 
-  function handleDragEnd(event) {
+  // To Prevent stale course param
+  const syncItemsFromCourse = useEffectEvent(
+    (course: AdminCourseSingularType) => {
+      setItems((prevItems) => {
+        return (
+          course.chapter?.map((chapter) => ({
+            id: chapter.id,
+            title: chapter.title,
+            order: chapter.position,
+            isOpen:
+              prevItems.find((item) => item.id === chapter.id)?.isOpen ?? true,
+            lessons: chapter.lessons.map((lesson) => ({
+              id: lesson.id,
+              title: lesson.title,
+              order: lesson.position,
+            })),
+          })) ?? []
+        );
+      });
+    },
+  );
+
+  useEffect(() => {
+    syncItemsFromCourse(course);
+  }, [course]);
+
+  function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
+    if (!over || active.id === over.id) {
+      return;
+    }
 
-        return arrayMove(items, oldIndex, newIndex);
-      });
+    const activeId = active.id;
+    const overId = over.id;
+    const activeType = active.data.current?.type as "chapter" | "lesson";
+    const overType = over.data.current?.type as "chapter" | "lesson";
+    const courseId = course.id;
+
+    // check if drag item is chapter, not lesson
+    if (activeType === "chapter") {
+      let targetChapterId = null;
+      if (overType === "chapter") {
+        targetChapterId = overId;
+      } else if (overType === "lesson") {
+        targetChapterId = over.data.current?.chapterId ?? null;
+      }
+      if (!targetChapterId) {
+        toast.error("Couldn't determine the chapter for reordering");
+        return;
+      }
+
+      const oldIndex = items.findIndex((item) => item.id === activeId);
+      const newIndex = items.findIndex((item) => item.id === targetChapterId);
+
+      if (oldIndex === -1 || newIndex === -1) {
+        toast.error("Couldn't find chapter old/new index for reordering");
+        return;
+      }
+
+      const reorderedLocalChapters = arrayMove(items, oldIndex, newIndex);
+      const updatedChapterForState = reorderedLocalChapters.map(
+        (chapter, index) => ({
+          ...chapter,
+          order: index + 1,
+        }),
+      );
+      const previousItems = [...items]; // for rollback if there is errors
+      setItems(updatedChapterForState);
+
+      if (courseId) {
+        const chaptersToUpdate = updatedChapterForState.map((chapter) => ({
+          id: chapter.id,
+          position: chapter.order,
+        }));
+
+        const reorderChaptersPromise = () =>
+          reorderChapters(courseId, chaptersToUpdate);
+
+        toast.promise(reorderChaptersPromise(), {
+          loading: "Reordering Chapters...",
+          success: (result) => {
+            if (result.status === "success") return result.message;
+            throw new Error(result.message);
+          },
+          error: () => {
+            setItems(previousItems);
+            return "Failed to reorder chapters";
+          },
+        });
+      }
+
+      return;
+    }
+
+    // check about the drag item is lesson && the drop place is also a lesson, not chapter
+    if (activeType === "lesson" && overType === "lesson") {
+      const chapterId = active.data.current?.chapterId;
+      const overChapterId = over.data.current?.chapterId;
+
+      // ensure that user should drag & drop lessons in same chapter, not from other chapter
+      if (!chapterId || chapterId !== overChapterId) {
+        toast.error(
+          "Lesson move between different chapters or invalid chapter ID is not allowed.",
+        );
+        return;
+      }
+
+      const chapterIndex = items.findIndex(
+        (chapter) => chapter.id === chapterId,
+      );
+
+      if (chapterIndex === -1) {
+        toast.error("Couldn't find chapter for lesson");
+        return;
+      }
+
+      const chapterToUpdate = items[chapterIndex];
+      const oldLessonIndex = chapterToUpdate.lessons.findIndex(
+        (lesson) => lesson.id === active.id,
+      );
+      const newLessonIndex = chapterToUpdate.lessons.findIndex(
+        (lesson) => lesson.id === overId,
+      );
+
+      if (oldLessonIndex === -1 || newLessonIndex === -1) {
+        toast.error("Couldn't find lesson for reordering");
+        return;
+      }
+
+      const reorderedLessons = arrayMove(
+        chapterToUpdate.lessons,
+        oldLessonIndex,
+        newLessonIndex,
+      );
+
+      const updatedLessonForState = reorderedLessons.map((lesson, index) => ({
+        ...lesson,
+        order: index + 1,
+      }));
+
+      const newItems = [...items];
+      newItems[chapterIndex] = {
+        ...chapterToUpdate,
+        lessons: updatedLessonForState,
+      };
+
+      const previousItems = [...items]; // for rollback if there is errors
+      setItems(newItems);
+
+      if (courseId) {
+        const lessonsToUpdate = updatedLessonForState.map((lesson) => ({
+          id: lesson.id,
+          position: lesson.order,
+        }));
+
+        const reorderLessonsPromise = () =>
+          reorderLessons(chapterId, lessonsToUpdate, courseId);
+
+        toast.promise(reorderLessonsPromise(), {
+          loading: "Reordering Lessons...",
+          success: (result) => {
+            if (result.status === "success") return result.message;
+            throw new Error(result.message);
+          },
+          error: () => {
+            setItems(previousItems);
+            return "Failed to reorder lessons";
+          },
+        });
+      }
+
+      return;
     }
   }
 
@@ -105,8 +271,11 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
         <CardHeader className="border-border flex flex-row items-center justify-between border-b">
           <CardTitle>Chapters</CardTitle>
         </CardHeader>
-        <CardContent>
-          <SortableContext strategy={verticalListSortingStrategy} items={items}>
+        <CardContent className="space-y-6">
+          <SortableContext
+            strategy={verticalListSortingStrategy}
+            items={items.map((item) => item.id)}
+          >
             {items.map((item) => (
               <SortableItem
                 key={item.id}

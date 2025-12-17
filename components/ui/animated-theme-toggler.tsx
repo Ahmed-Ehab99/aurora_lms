@@ -8,8 +8,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { cn } from "@/lib/utils";
-import { Skeleton } from "./skeleton";
 import { Button } from "./button";
+import { Skeleton } from "./skeleton";
 
 interface AnimatedThemeTogglerProps extends React.ComponentPropsWithoutRef<"button"> {
   duration?: number;
@@ -67,7 +67,7 @@ export const AnimatedThemeToggler = ({
   if (!mounted) {
     return (
       <button ref={buttonRef} className={cn(className)} {...props}>
-        <Skeleton className="size-6 rounded-full" />
+        <Skeleton className="size-9" />
         <span className="sr-only">Toggle theme</span>
       </button>
     );
