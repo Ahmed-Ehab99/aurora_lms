@@ -1,6 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Link from "next/link";
 
 interface FeaturesT {
@@ -42,6 +44,10 @@ const features: FeaturesT[] = [
 ];
 
 export default async function Home() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
     <>
       <section className="relative py-20">
@@ -59,9 +65,15 @@ export default async function Home() {
             <Button asChild size="lg">
               <Link href="/admin/courses">Explore Courses</Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="/login">Sign In</Link>
-            </Button>
+            {session ? (
+              <Button asChild size="lg" variant="outline">
+                <Link href="/admin/courses/create">Add Courses</Link>
+              </Button>
+            ) : (
+              <Button asChild size="lg" variant="outline">
+                <Link href="/login">Sign In</Link>
+              </Button>
+            )}
           </div>
         </div>
       </section>
