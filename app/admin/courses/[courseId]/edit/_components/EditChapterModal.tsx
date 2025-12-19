@@ -22,13 +22,21 @@ import { Input } from "@/components/ui/input";
 import { tryCatch } from "@/hooks/try-catch";
 import { chapterSchema, ChapterSchemaType } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader, Plus } from "lucide-react";
+import { Edit, Loader } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { createChapter } from "../actions";
+import { editChapter } from "../actions";
 
-const NewChapterModal = ({ courseId }: { courseId: string }) => {
+const EditChapterModal = ({
+  courseId,
+  chapterId,
+  chapterName,
+}: {
+  courseId: string;
+  chapterId: string;
+  chapterName: string;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -42,14 +50,16 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
   const form = useForm({
     resolver: zodResolver(chapterSchema),
     defaultValues: {
-      name: "",
+      name: chapterName,
       courseId,
     },
   });
 
   function onSubmit(values: ChapterSchemaType) {
     startTransition(async () => {
-      const { data: result, error } = await tryCatch(createChapter(values));
+      const { data: result, error } = await tryCatch(
+        editChapter(values, chapterId),
+      );
 
       if (error) {
         toast.error("An unexpected error occurred. Please try again.");
@@ -58,7 +68,6 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
 
       if (result.status === "success") {
         toast.success(result.message);
-        form.reset();
         setIsOpen(false);
       } else if (result.status === "error") {
         toast.error(result.message);
@@ -69,18 +78,15 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
-          <Plus className="size-4" />
-          New Chapter
+        <Button variant="ghost" size="icon">
+          <Edit className="size-4" />
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create new chapter</DialogTitle>
-          <DialogDescription>
-            What would you like to name your chapter?
-          </DialogDescription>
+          <DialogTitle>Edit &quot;{chapterName}&quot;</DialogTitle>
+          <DialogDescription>Edit your chapter name</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
@@ -105,11 +111,11 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
               <Button type="submit" disabled={isPending}>
                 {isPending ? (
                   <>
-                    Saving...
+                    Editing...
                     <Loader className="ml-1 animate-spin" />
                   </>
                 ) : (
-                  <>Save Changes</>
+                  <>Edit Chapter</>
                 )}
               </Button>
             </DialogFooter>
@@ -120,4 +126,4 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
   );
 };
 
-export default NewChapterModal;
+export default EditChapterModal;

@@ -64,6 +64,46 @@ export async function editCourse(
   }
 }
 
+export async function editChapter(
+  values: ChapterSchemaType,
+  chapterId: string,
+): Promise<ApiResponse> {
+  await requireAdmin();
+
+  try {
+    const result = chapterSchema.safeParse(values);
+
+    if (!result.success) {
+      return {
+        status: "error",
+        message: "Invalid Data",
+      };
+    }
+
+    await prisma.chapter.update({
+      where: {
+        id: chapterId,
+      },
+      data: {
+        title: result.data.name,
+      },
+    });
+
+    // update UI after updating DB
+    revalidatePath(`/admin/courses/${result.data.courseId}/edit`);
+
+    return {
+      status: "success",
+      message: "Chapter updated successfully",
+    };
+  } catch {
+    return {
+      status: "error",
+      message: "Failed to update chapter",
+    };
+  }
+}
+
 export async function reorderChapters(
   courseId: string,
   chapters: { id: string; position: number }[],

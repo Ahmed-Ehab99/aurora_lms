@@ -29,15 +29,19 @@ interface UploaderState {
 interface UploaderProps {
   value?: string;
   onChange?: (value: string) => void;
+  fileTypeAccepted: "image" | "video";
 }
 
-const Uploader = ({ value, onChange }: UploaderProps) => {
+const IMAGE_MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const VIDEO_MAX_SIZE = 5000 * 1024 * 1024; // 5GB
+
+const Uploader = ({ value, onChange, fileTypeAccepted }: UploaderProps) => {
   const fileUrl = useConstructUrl(value || "");
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
     id: null,
-    fileType: "image",
+    fileType: fileTypeAccepted,
     isDeleting: false,
     progress: 0,
     uploading: false,
@@ -59,7 +63,7 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
           fileName: file.name,
           contentType: file.type,
           size: file.size,
-          isImage: true,
+          isImage: fileTypeAccepted === "image" ? true : false,
         }),
       });
 
@@ -129,14 +133,14 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
       }
 
       setFileState({
-        file: file,
+        file,
         uploading: false,
         progress: 0,
         objectUrl: URL.createObjectURL(file),
         error: false,
         id: uuidv4(),
         isDeleting: false,
-        fileType: "image",
+        fileType: fileTypeAccepted,
       });
       uploadFile(file);
     }
@@ -180,7 +184,7 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
         progress: 0,
         objectUrl: undefined,
         error: false,
-        fileType: "image",
+        fileType: fileTypeAccepted,
         id: null,
         isDeleting: false,
       }));
@@ -231,6 +235,7 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
           previewUrl={fileState.objectUrl}
           handleRemoveFile={handleRemoveFile}
           isDeleting={fileState.isDeleting}
+          fileType={fileState.fileType}
         />
       );
     }
@@ -247,10 +252,11 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { "image/*": [] },
+    accept:
+      fileTypeAccepted === "video" ? { "video/*": [] } : { "image/*": [] },
     maxFiles: 1,
     multiple: false,
-    maxSize: 5 * 1024 * 1024, // 5MB
+    maxSize: fileTypeAccepted === "image" ? IMAGE_MAX_SIZE : VIDEO_MAX_SIZE,
     onDropRejected: rejectedFiles,
     disabled: fileState.uploading || !!fileState.objectUrl,
   });
@@ -259,7 +265,7 @@ const Uploader = ({ value, onChange }: UploaderProps) => {
     <Card
       {...getRootProps()}
       className={cn(
-        "relative h-64 w-full border-2 border-dashed transition-colors duration-200 ease-in-out",
+        "relative h-96 w-full border-2 border-dashed transition-colors duration-200 ease-in-out",
         isDragActive
           ? "border-primary bg-primary/10 border-solid"
           : "border-border hover:border-primary",

@@ -39,6 +39,7 @@ import { toast } from "sonner";
 import { reorderChapters, reorderLessons } from "../actions";
 import DeleteChapter from "./DeleteChapter";
 import DeleteLesson from "./DeleteLesson";
+import EditChapterModal from "./EditChapterModal";
 import NewChapterModal from "./NewChapterModal";
 import NewLessonModal from "./NewLessonModal";
 
@@ -314,11 +315,18 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
                             {item.title}
                           </p>
                         </div>
-                        <DeleteChapter
-                          chapterId={item.id}
-                          courseId={course.id}
-                          chapterName={item.title}
-                        />
+                        <div className="flex items-center gap-1">
+                          <EditChapterModal
+                            chapterName={item.title}
+                            chapterId={item.id}
+                            courseId={course.id}
+                          />
+                          <DeleteChapter
+                            chapterId={item.id}
+                            courseId={course.id}
+                            chapterName={item.title}
+                          />
+                        </div>
                       </div>
                       <CollapsibleContent>
                         <div className="p-1">
@@ -344,7 +352,7 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
                                       </Button>
                                       <FileText className="size-4" />
                                       <Link
-                                        href={`/admin/courses/${course.id}/${item.id}/lesson`}
+                                        href={`/admin/courses/${course.id}/${item.id}/${lesson.id}`}
                                       >
                                         {lesson.title}
                                       </Link>

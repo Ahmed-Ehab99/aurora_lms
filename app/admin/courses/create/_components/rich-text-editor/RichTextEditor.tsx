@@ -2,38 +2,41 @@ import TextAlign from "@tiptap/extension-text-align";
 import { Placeholder } from "@tiptap/extensions";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { ControllerRenderProps } from "react-hook-form";
+import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 import MenuBar from "./MenuBar";
 
-interface RichTextEditorProps {
-  field: ControllerRenderProps<
-    {
-      title: string;
-      description: string;
-      fileKey: string;
-      price: unknown;
-      duration: unknown;
-      level: "Beginner" | "Intermediate" | "Advanced";
-      category:
-        | "Development"
-        | "Business"
-        | "Finance"
-        | "IT & Software"
-        | "Photography"
-        | "Design"
-        | "Marketing"
-        | "Health & Fitness"
-        | "Music"
-        | "Teaching & Acadamics";
-      smallDescription: string;
-      slug: string;
-      status: "Draft" | "Published" | "Archived";
-    },
-    "description"
-  >;
+interface RichTextEditorProps<T extends FieldValues> {
+  field: ControllerRenderProps<T, Path<T>>;
 }
 
-const RichTextEditor = ({ field }: RichTextEditorProps) => {
+const parseContent = (value: string | undefined | null) => {
+  if (!value) return null;
+
+  try {
+    // Try to parse as JSON first
+    return JSON.parse(value);
+  } catch {
+    // If it fails, treat it as plain text and convert to Tiptap format
+    return {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: value,
+            },
+          ],
+        },
+      ],
+    };
+  }
+};
+
+const RichTextEditor = <T extends FieldValues>({
+  field,
+}: RichTextEditorProps<T>) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -53,7 +56,7 @@ const RichTextEditor = ({ field }: RichTextEditorProps) => {
     onUpdate: ({ editor }) => {
       field.onChange(JSON.stringify(editor.getJSON()));
     },
-    content: field.value ? JSON.parse(field.value) : null,
+    content: parseContent(field.value),
     immediatelyRender: false,
   });
 
