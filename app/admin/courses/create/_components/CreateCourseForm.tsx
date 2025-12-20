@@ -36,6 +36,7 @@ import { toast } from "sonner";
 import { createCourse } from "../actions";
 import Uploader from "./file-uploader/Uploader";
 import RichTextEditor from "./rich-text-editor/RichTextEditor";
+import { confettiSideCannons } from "@/components/ui/confetti";
 
 const CreateCourseForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -67,6 +68,7 @@ const CreateCourseForm = () => {
 
       if (result.status === "success") {
         toast.success(result.message);
+        confettiSideCannons();
         form.reset();
         router.push("/admin/courses");
       } else if (result.status === "error") {
@@ -163,7 +165,11 @@ const CreateCourseForm = () => {
             <FormItem className="w-full">
               <FormLabel>Thumbnail Image</FormLabel>
               <FormControl>
-                <Uploader onChange={field.onChange} value={field.value} fileTypeAccepted="image" />
+                <Uploader
+                  onChange={field.onChange}
+                  value={field.value}
+                  fileTypeAccepted="image"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
