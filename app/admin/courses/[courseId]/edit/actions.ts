@@ -68,9 +68,16 @@ export async function editChapter(
   values: ChapterSchemaType,
   chapterId: string,
 ): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
 
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerprint: session?.user.id,
+    });
+    const denialResponse = handleArcjetDecision(decision);
+    if (denialResponse) return denialResponse;
+
     const result = chapterSchema.safeParse(values);
 
     if (!result.success) {
@@ -196,9 +203,16 @@ export async function reorderLessons(
 export async function createChapter(
   values: ChapterSchemaType,
 ): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
 
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerprint: session?.user.id,
+    });
+    const denialResponse = handleArcjetDecision(decision);
+    if (denialResponse) return denialResponse;
+
     const result = chapterSchema.safeParse(values);
 
     if (!result.success) {
@@ -250,9 +264,16 @@ export async function createChapter(
 export async function createLesson(
   values: ChapterSchemaType,
 ): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
 
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerprint: session?.user.id,
+    });
+    const denialResponse = handleArcjetDecision(decision);
+    if (denialResponse) return denialResponse;
+
     const result = lessonSchema.safeParse(values);
 
     if (!result.success) {
@@ -311,9 +332,16 @@ export async function deleteChapter({
   chapterId: string;
   courseId: string;
 }): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
 
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerprint: session?.user.id,
+    });
+    const denialResponse = handleArcjetDecision(decision);
+    if (denialResponse) return denialResponse;
+
     // Get course with its chapters
     const courseWithChapter = await prisma.course.findUnique({
       where: {
@@ -401,9 +429,16 @@ export async function deleteLesson({
   courseId: string;
   lessonId: string;
 }): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
 
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerprint: session?.user.id,
+    });
+    const denialResponse = handleArcjetDecision(decision);
+    if (denialResponse) return denialResponse;
+
     // Get chapter with its lessons
     const chapterWithLesson = await prisma.chapter.findUnique({
       where: {

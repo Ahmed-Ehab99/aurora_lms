@@ -1,12 +1,26 @@
+import arcjet, { createMiddleware, detectBot } from "@arcjet/next";
 import { getSessionCookie } from "better-auth/cookies";
 import { NextRequest, NextResponse } from "next/server";
+import { env } from "./lib/env";
 
-export async function proxy(request: NextRequest) {
+const aj = arcjet({
+  key: env.ARCJET_KEY!, // Get your site key from https://app.arcjet.com
+  rules: [
+    detectBot({
+      mode: "LIVE", // will block requests.
+      // Block all bots except the following
+      allow: [
+        "CATEGORY:SEARCH_ENGINE", // Index data for search engines (Google, Bing, etc)
+        "CATEGORY:MONITOR", // Interact for monitoring purposes (Uptime monitoring services),
+        "CATEGORY:PREVIEW", // Link previews e.g. Slack, Discord
+      ],
+    }),
+  ],
+});
+
+async function proxy(request: NextRequest) {
   const sessionCookie = getSessionCookie(request);
 
-  // THIS IS NOT SECURE!
-  // This is the recommended approach to optimistically redirect users
-  // We recommend handling auth checks in each page/route
   if (!sessionCookie) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
@@ -15,5 +29,16 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  // matcher tells Next.js which routes to run the middleware on.
+  // This runs the middleware on all routes except for static assets.
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth).*)"],
 };
+
+// Pass any existing middleware with the optional existingMiddleware prop
+export default createMiddleware(aj, async (request: NextRequest) => {
+  if (request.nextUrl.pathname.startsWith("/admin")) {
+    return proxy(request);
+  }
+
+  return NextResponse.next();
+});

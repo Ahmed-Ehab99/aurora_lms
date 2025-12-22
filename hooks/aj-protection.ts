@@ -1,4 +1,4 @@
-import arcjet, { detectBot, fixedWindow } from "@/lib/arcjet";
+import arcjet, { fixedWindow } from "@/lib/arcjet";
 import { ApiResponse } from "@/lib/types";
 import { ArcjetDecision } from "@arcjet/next";
 
@@ -11,12 +11,6 @@ export function ajProtection(options: AjProtectionOptions = {}) {
   const { window = "1m", max = 5 } = options;
 
   return arcjet
-    .withRule(
-      detectBot({
-        mode: "LIVE",
-        allow: [],
-      }),
-    )
     .withRule(
       fixedWindow({
         mode: "LIVE",
