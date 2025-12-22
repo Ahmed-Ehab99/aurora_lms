@@ -1,12 +1,12 @@
 import { adminGetCourses } from "@/app/data/admin/admin-get-courses";
+import { CourseCardSkeleton } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Suspense } from "react";
-import { AdminCourseCardSkeleton } from "./_components/AdminCourseCard";
 import CoursesList from "./_components/CoursesList";
 
-const CoursesPage = () => {
+const AdminCoursesPage = () => {
   return (
     <>
       <div className="flex items-center justify-between">
@@ -16,16 +16,16 @@ const CoursesPage = () => {
         </Button>
       </div>
 
-      <Suspense fallback={<AdminCourseCardSkeleton />}>
-        <RenderCourse />
+      <Suspense fallback={<CourseCardSkeleton isInAdmin={true} />}>
+        <RenderAdminCourses />
       </Suspense>
     </>
   );
 };
 
-export default CoursesPage;
+export default AdminCoursesPage;
 
-const RenderCourse = async () => {
+const RenderAdminCourses = async () => {
   const courses = await adminGetCourses();
 
   return (

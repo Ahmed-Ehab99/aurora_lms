@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { confettiSideCannons } from "@/components/ui/confetti";
 import {
   Form,
   FormControl,
@@ -33,10 +34,9 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
+import RichTextEditor from "../../../../../components/rich-text-editor/RichTextEditor";
 import { createCourse } from "../actions";
 import Uploader from "./file-uploader/Uploader";
-import RichTextEditor from "./rich-text-editor/RichTextEditor";
-import { confettiSideCannons } from "@/components/ui/confetti";
 
 const CreateCourseForm = () => {
   const [isPending, startTransition] = useTransition();

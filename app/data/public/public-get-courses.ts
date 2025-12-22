@@ -1,10 +1,10 @@
 import { prisma } from "@/lib/db";
-import "server-only";
-import { requireAdmin } from "./require-admin";
 
-export const adminGetCourses = async () => {
-  await requireAdmin();
+export const publicGetCourses = async () => {
   const data = await prisma.course.findMany({
+    where: {
+      status: "Published",
+    },
     select: {
       id: true,
       title: true,
@@ -14,6 +14,7 @@ export const adminGetCourses = async () => {
       status: true,
       price: true,
       fileKey: true,
+      category: true,
       slug: true,
     },
     orderBy: {
@@ -24,4 +25,4 @@ export const adminGetCourses = async () => {
 };
 
 // Dynamic type
-export type AdminCourseType = Awaited<ReturnType<typeof adminGetCourses>>[0];
+export type PublicCourseType = Awaited<ReturnType<typeof publicGetCourses>>[0];

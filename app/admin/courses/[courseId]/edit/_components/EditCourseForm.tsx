@@ -34,8 +34,8 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
+import RichTextEditor from "../../../../../../components/rich-text-editor/RichTextEditor";
 import Uploader from "../../../create/_components/file-uploader/Uploader";
-import RichTextEditor from "../../../create/_components/rich-text-editor/RichTextEditor";
 import { editCourse } from "../actions";
 
 interface EditCourseFormProps {
@@ -73,6 +73,8 @@ const EditCourseForm = ({ course }: EditCourseFormProps) => {
       status,
     },
   });
+
+  const { isDirty } = form.formState;
 
   function onSubmit(values: CourseSchemaType) {
     startTransition(async () => {
@@ -336,7 +338,7 @@ const EditCourseForm = ({ course }: EditCourseFormProps) => {
         />
 
         {/* SUBMIT BUTTON */}
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending || !isDirty}>
           {isPending ? (
             <>
               Updating...

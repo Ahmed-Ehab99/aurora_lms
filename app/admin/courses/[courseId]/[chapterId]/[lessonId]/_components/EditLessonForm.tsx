@@ -1,8 +1,8 @@
 "use client";
 
 import Uploader from "@/app/admin/courses/create/_components/file-uploader/Uploader";
-import RichTextEditor from "@/app/admin/courses/create/_components/rich-text-editor/RichTextEditor";
 import { AdminLessonSingularType } from "@/app/data/admin/admin-get-lesson";
+import RichTextEditor from "@/components/rich-text-editor/RichTextEditor";
 import { Button } from "@/components/ui/button";
 import {
   Card,

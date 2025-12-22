@@ -19,8 +19,10 @@ const EditCoursePage = async ({ params }: { params: Params }) => {
   return (
     <div>
       <h1 className="mb-8 text-3xl font-bold">
-        Edit Course:{" "}
-        <span className="text-primary underline">{course?.title}</span>
+        Edit Course:
+        <span className="text-primary line-clamp-1 wrap-break-word whitespace-normal underline">
+          {course?.title}
+        </span>
       </h1>
 
       <Tabs defaultValue="basic-info" className="w-full">
