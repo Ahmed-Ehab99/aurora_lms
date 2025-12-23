@@ -3,7 +3,9 @@
 import { requireAdmin } from "@/app/data/admin/require-admin";
 import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
 import { prisma } from "@/lib/db";
+import { env } from "@/lib/env";
 import { courseSchema, CourseSchemaType } from "@/lib/schemas";
+import { stripe } from "@/lib/stripe";
 import { ApiResponse } from "@/lib/types";
 import { request } from "@arcjet/next";
 
@@ -34,10 +36,23 @@ export const createCourse = async (
       };
     }
 
+    const data = await stripe.products.create({
+      images: [
+        `https://${env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}.t3.storage.dev/${result.data.fileKey}`,
+      ],
+      name: result.data.title,
+      description: result.data.smallDescription,
+      default_price_data: {
+        currency: "usd",
+        unit_amount: result.data.price * 100,
+      },
+    });
+
     await prisma.course.create({
       data: {
         ...result.data,
         userId: session?.user.id as string,
+        stripePriceId: data.default_price as string,
       },
     });
 

@@ -39,7 +39,8 @@ export const enrollmentInCourse = async (
         title: true,
         price: true,
         slug: true,
-        fileKey: true
+        fileKey: true,
+        stripePriceId: true,
       },
     });
 
@@ -138,7 +139,7 @@ export const enrollmentInCourse = async (
         customer: stripeCustomerId,
         line_items: [
           {
-            price: "price_1ShEFTBPpJXcw6F2cIrmIKsn",
+            price: course.stripePriceId,
             quantity: 1,
           },
         ],
