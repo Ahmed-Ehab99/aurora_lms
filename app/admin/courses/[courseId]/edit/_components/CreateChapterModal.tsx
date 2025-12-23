@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -19,22 +20,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { tryCatch } from "@/hooks/try-catch";
-import { lessonSchema, LessonSchemaType } from "@/lib/schemas";
+import { chapterSchema, ChapterSchemaType } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { Loader, Plus } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { createLesson } from "../actions";
+import { createChapter } from "../actions";
 
-const NewLessonModal = ({
-  courseId,
-  chapterId,
-}: {
-  courseId: string;
-  chapterId: string;
-}) => {
+const CreateChapterModal = ({ courseId }: { courseId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -46,17 +40,16 @@ const NewLessonModal = ({
   };
 
   const form = useForm({
-    resolver: zodResolver(lessonSchema),
+    resolver: zodResolver(chapterSchema),
     defaultValues: {
       name: "",
       courseId,
-      chapterId,
     },
   });
 
-  function onSubmit(values: LessonSchemaType) {
+  function onSubmit(values: ChapterSchemaType) {
     startTransition(async () => {
-      const { data: result, error } = await tryCatch(createLesson(values));
+      const { data: result, error } = await tryCatch(createChapter(values));
 
       if (error) {
         toast.error("An unexpected error occurred. Please try again.");
@@ -76,23 +69,23 @@ const NewLessonModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full justify-center gap-2">
+        <Button variant="outline" size="sm" className="gap-2">
           <Plus className="size-4" />
-          New Lesson
+          New Chapter
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create new lesson</DialogTitle>
+          <DialogTitle>Create new chapter</DialogTitle>
           <DialogDescription>
-            What would you like to name your lesson?
+            What would you like to name your chapter?
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* LESSON NAME */}
+            {/* CHAPTER NAME */}
             <FormField
               control={form.control}
               name="name"
@@ -100,7 +93,7 @@ const NewLessonModal = ({
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Lesson Name" {...field} />
+                    <Input placeholder="Chapter Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,11 +105,14 @@ const NewLessonModal = ({
               <Button type="submit" disabled={isPending}>
                 {isPending ? (
                   <>
-                    Saving...
-                    <Loader className="ml-1 animate-spin" />
+                    <Loader className="size-4 animate-spin" />
+                    <span>Creating...</span>
                   </>
                 ) : (
-                  <>Save Changes</>
+                  <>
+                    <Plus className="size-4" />
+                    <span>Create</span>
+                  </>
                 )}
               </Button>
             </DialogFooter>
@@ -127,4 +123,4 @@ const NewLessonModal = ({
   );
 };
 
-export default NewLessonModal;
+export default CreateChapterModal;

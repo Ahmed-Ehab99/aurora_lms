@@ -7,10 +7,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { prisma } from "@/lib/db";
 import CourseStructure from "./_components/CourseStructure";
 import EditCourseForm from "./_components/EditCourseForm";
 
 type Params = Promise<{ courseId: string }>;
+
+export async function generateStaticParams() {
+  const courses = await prisma.course.findMany({
+    select: { id: true },
+  });
+
+  return courses.map((course) => ({
+    courseId: course.id,
+  }));
+}
 
 const EditCoursePage = async ({ params }: { params: Params }) => {
   const { courseId } = await params;
@@ -18,11 +29,9 @@ const EditCoursePage = async ({ params }: { params: Params }) => {
 
   return (
     <div>
-      <h1 className="mb-8 text-3xl font-bold">
+      <h1 className="mb-8 flex items-center gap-2 text-3xl font-bold">
         Edit Course:
-        <span className="text-primary line-clamp-1 wrap-break-word whitespace-normal underline">
-          {course?.title}
-        </span>
+        <span className="text-primary underline">{course?.title}</span>
       </h1>
 
       <Tabs defaultValue="basic-info" className="w-full">

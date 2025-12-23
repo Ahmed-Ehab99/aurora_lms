@@ -37,11 +37,11 @@ import Link from "next/link";
 import React, { useEffect, useEffectEvent, useState } from "react";
 import { toast } from "sonner";
 import { reorderChapters, reorderLessons } from "../actions";
+import CreateChapterModal from "./CreateChapterModal";
+import CreateLessonModal from "./CreateLessonModal";
 import DeleteChapter from "./DeleteChapter";
 import DeleteLesson from "./DeleteLesson";
 import EditChapterModal from "./EditChapterModal";
-import NewChapterModal from "./NewChapterModal";
-import NewLessonModal from "./NewLessonModal";
 
 interface CourseStructureProps {
   course: AdminCourseSingularType;
@@ -274,7 +274,7 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
       <Card>
         <CardHeader className="border-border flex flex-row items-center justify-between border-b">
           <CardTitle>Chapters</CardTitle>
-          <NewChapterModal courseId={course.id} />
+          <CreateChapterModal courseId={course.id} />
         </CardHeader>
         <CardContent className="space-y-6">
           <SortableContext
@@ -369,7 +369,7 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
                             ))}
                           </SortableContext>
                           <div className="p-2">
-                            <NewLessonModal
+                            <CreateLessonModal
                               chapterId={item.id}
                               courseId={course.id}
                             />

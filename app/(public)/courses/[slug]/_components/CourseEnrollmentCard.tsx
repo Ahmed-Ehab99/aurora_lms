@@ -1,8 +1,12 @@
-import { Button } from "@/components/ui/button";
+import { checkIfCourseBought } from "@/app/data/public/user-is-enrolled";
 import { Card, CardContent } from "@/components/ui/card";
 import { Book, ChartBar, Check, Clock, LayoutGrid } from "lucide-react";
+import Link from "next/link";
+import EnrollmentButton from "./EnrollmentButton";
+import { Button } from "@/components/ui/button";
 
 interface CourseEnrollmentCardProps {
+  courseId: string;
   price: number;
   duration: number;
   level: string;
@@ -16,7 +20,8 @@ const courseIncludes = [
   "Certificate of completion",
 ];
 
-const CourseEnrollmentCard = ({
+const CourseEnrollmentCard = async ({
+  courseId,
   price,
   duration,
   level,
@@ -45,6 +50,8 @@ const CourseEnrollmentCard = ({
       value: `${lessonsLength} Lesson${lessonsLength !== 1 ? "s" : ""}`,
     },
   ];
+
+  const isEnrolled = await checkIfCourseBought(courseId);
 
   return (
     <div className="lg:sticky lg:top-24">
@@ -93,7 +100,13 @@ const CourseEnrollmentCard = ({
             </ul>
           </div>
 
-          <Button className="w-full">Enroll Now!</Button>
+          {isEnrolled ? (
+            <Button className="w-full">
+              <Link href="/dashboard">Watch Course</Link>
+            </Button>
+          ) : (
+            <EnrollmentButton courseId={courseId} />
+          )}
           <p className="text-muted-foreground mt-3 text-center text-xs">
             30-day money-back gurantee
           </p>

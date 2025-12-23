@@ -111,11 +111,14 @@ const EditChapterModal = ({
               <Button type="submit" disabled={isPending}>
                 {isPending ? (
                   <>
-                    Editing...
-                    <Loader className="ml-1 animate-spin" />
+                    <Loader className="size-4 animate-spin" />
+                    <span>Updating...</span>
                   </>
                 ) : (
-                  <>Edit Chapter</>
+                  <>
+                    <Edit className="size-4" />
+                    <span>Update</span>
+                  </>
                 )}
               </Button>
             </DialogFooter>

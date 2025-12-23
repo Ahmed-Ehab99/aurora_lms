@@ -1,11 +1,12 @@
 import { PublicCourseSingularType } from "@/app/data/public/public-get-course";
-import CourseContentSection from "./course/CourseContentSection";
-import CourseDescriptionSection from "./course/CourseDescriptionSection";
-import CourseEnrollmentCard from "./course/CourseEnrollmentCard";
-import CourseHeroSection from "./course/CourseHeroSection";
+import CourseContentSection from "./CourseContentSection";
+import CourseDescriptionSection from "./CourseDescriptionSection";
+import CourseEnrollmentCard from "./CourseEnrollmentCard";
+import CourseHeroSection from "./CourseHeroSection";
 
 const CourseDetails = ({ course }: { course: PublicCourseSingularType }) => {
   const {
+    id,
     category,
     chapter,
     duration,
@@ -41,6 +42,7 @@ const CourseDetails = ({ course }: { course: PublicCourseSingularType }) => {
       {/* Enrollment Card */}
       <div className="order-2 lg:col-span-1">
         <CourseEnrollmentCard
+          courseId={id}
           price={price}
           duration={duration}
           level={level}

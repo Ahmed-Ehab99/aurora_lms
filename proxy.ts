@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { env } from "./lib/env";
 
 const aj = arcjet({
-  key: env.ARCJET_KEY!, // Get your site key from https://app.arcjet.com
+  key: env.ARCJET_KEY!,
   rules: [
     detectBot({
       mode: "LIVE", // will block requests.
@@ -13,6 +13,7 @@ const aj = arcjet({
         "CATEGORY:SEARCH_ENGINE", // Index data for search engines (Google, Bing, etc)
         "CATEGORY:MONITOR", // Interact for monitoring purposes (Uptime monitoring services),
         "CATEGORY:PREVIEW", // Link previews e.g. Slack, Discord
+        "STRIPE_WEBHOOK" // Stripe webhook for payment
       ],
     }),
   ],

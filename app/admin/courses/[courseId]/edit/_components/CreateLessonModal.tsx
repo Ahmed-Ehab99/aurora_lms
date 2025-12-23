@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -20,15 +19,22 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { tryCatch } from "@/hooks/try-catch";
-import { chapterSchema, ChapterSchemaType } from "@/lib/schemas";
+import { lessonSchema, LessonSchemaType } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { DialogDescription } from "@radix-ui/react-dialog";
 import { Loader, Plus } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { createChapter } from "../actions";
+import { createLesson } from "../actions";
 
-const NewChapterModal = ({ courseId }: { courseId: string }) => {
+const CreateLessonModal = ({
+  courseId,
+  chapterId,
+}: {
+  courseId: string;
+  chapterId: string;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -40,16 +46,17 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
   };
 
   const form = useForm({
-    resolver: zodResolver(chapterSchema),
+    resolver: zodResolver(lessonSchema),
     defaultValues: {
       name: "",
       courseId,
+      chapterId,
     },
   });
 
-  function onSubmit(values: ChapterSchemaType) {
+  function onSubmit(values: LessonSchemaType) {
     startTransition(async () => {
-      const { data: result, error } = await tryCatch(createChapter(values));
+      const { data: result, error } = await tryCatch(createLesson(values));
 
       if (error) {
         toast.error("An unexpected error occurred. Please try again.");
@@ -69,23 +76,23 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button variant="outline" className="w-full justify-center gap-2">
           <Plus className="size-4" />
-          New Chapter
+          New Lesson
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create new chapter</DialogTitle>
+          <DialogTitle>Create new lesson</DialogTitle>
           <DialogDescription>
-            What would you like to name your chapter?
+            What would you like to name your lesson?
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* CHAPTER NAME */}
+            {/* LESSON NAME */}
             <FormField
               control={form.control}
               name="name"
@@ -93,7 +100,7 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Chapter Name" {...field} />
+                    <Input placeholder="Lesson Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -105,11 +112,14 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
               <Button type="submit" disabled={isPending}>
                 {isPending ? (
                   <>
-                    Saving...
-                    <Loader className="ml-1 animate-spin" />
+                    <Loader className="size-4 animate-spin" />
+                    <span>Creating...</span>
                   </>
                 ) : (
-                  <>Save Changes</>
+                  <>
+                    <Plus className="size-4" />
+                    <span>Create</span>
+                  </>
                 )}
               </Button>
             </DialogFooter>
@@ -120,4 +130,4 @@ const NewChapterModal = ({ courseId }: { courseId: string }) => {
   );
 };
 
-export default NewChapterModal;
+export default CreateLessonModal;

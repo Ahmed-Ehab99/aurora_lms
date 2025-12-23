@@ -39,7 +39,7 @@ const SigninGithubBtn = () => {
       {githubPending ? (
         <>
           <Loader className="size-4 animate-spin" />
-          <span>Loading...</span>
+          <span>Signing In...</span>
         </>
       ) : (
         <>

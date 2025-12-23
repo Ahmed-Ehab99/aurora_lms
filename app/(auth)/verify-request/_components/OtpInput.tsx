@@ -8,7 +8,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { authClient } from "@/lib/auth-client";
-import { Loader } from "lucide-react";
+import { Loader, Shield } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -80,16 +80,15 @@ const OtpInput = () => {
             <span>Verifing...</span>
           </>
         ) : (
-          <span>Verify Account</span>
+          <>
+            <Shield className="size-4" />
+            <span>Verify Account</span>
+          </>
         )}
       </Button>
 
       {/* Live region for screen readers: announces start/finish of verification */}
-      <div
-        role="status"
-        aria-live="polite"
-        className="sr-only"
-      >
+      <div role="status" aria-live="polite" className="sr-only">
         {otpPending ? "Verifying code…" : ""}
       </div>
     </CardContent>

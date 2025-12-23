@@ -28,7 +28,7 @@ import {
   courseStatus,
 } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader, PlusIcon, SparkleIcon } from "lucide-react";
+import { Edit, Loader, SparkleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -341,12 +341,13 @@ const EditCourseForm = ({ course }: EditCourseFormProps) => {
         <Button type="submit" disabled={isPending || !isDirty}>
           {isPending ? (
             <>
-              Updating...
-              <Loader className="ml-1 animate-spin" />
+              <Loader className="size-4 animate-spin" />
+              <span>Updating...</span>
             </>
           ) : (
             <>
-              Update Course <PlusIcon className="ml-1" size={16} />
+              <Edit className="size-4" />
+              <span>Update Course</span>
             </>
           )}
         </Button>

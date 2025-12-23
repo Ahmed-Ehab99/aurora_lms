@@ -50,7 +50,7 @@ const SigninEmail = () => {
         {emailPending ? (
           <>
             <Loader className="size-4 animate-spin" />
-            <span>Loading...</span>
+            <span>Continuing...</span>
           </>
         ) : (
           <>

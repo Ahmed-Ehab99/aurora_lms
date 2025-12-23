@@ -1,5 +1,39 @@
 import { adminGetLesson } from "@/app/data/admin/admin-get-lesson";
-import EditLessonForm from "./_components/EditLessonForm";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { prisma } from "@/lib/db";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import { Suspense } from "react";
+import EditLessonForm, {
+  EditLessonFormSkeleton,
+} from "./_components/EditLessonForm";
+
+export async function generateStaticParams() {
+  const lessons = await prisma.lesson.findMany({
+    select: {
+      id: true,
+      chapterId: true,
+      chapter: {
+        select: {
+          courseId: true,
+        },
+      },
+    },
+  });
+
+  return lessons.map((lesson) => ({
+    courseId: lesson.chapter.courseId,
+    chapterId: lesson.chapterId,
+    lessonId: lesson.id,
+  }));
+}
 
 type Params = Promise<{
   courseId: string;
@@ -9,11 +43,56 @@ type Params = Promise<{
 
 const EditLessonPage = async ({ params }: { params: Params }) => {
   const { chapterId, courseId, lessonId } = await params;
-  const lesson = await adminGetLesson(lessonId);
 
   return (
-    <EditLessonForm chapterId={chapterId} lesson={lesson} courseId={courseId} />
+    <div>
+      <Button asChild variant="outline" className="mb-6">
+        <Link href={`/admin/courses/${courseId}/edit`}>
+          <ArrowLeft className="size-4" />
+          Go Back
+        </Link>
+      </Button>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Lesson Configuration</CardTitle>
+          <CardDescription>
+            Configure the video and description for this lesson
+          </CardDescription>
+        </CardHeader>
+        <Suspense fallback={<EditLessonFormSkeleton />}>
+          <RenderEditLessonForm
+            chapterId={chapterId}
+            courseId={courseId}
+            lessonId={lessonId}
+          />
+        </Suspense>
+      </Card>
+    </div>
   );
 };
 
 export default EditLessonPage;
+
+interface RenderEditLessonFormProps {
+  lessonId: string;
+  chapterId: string;
+  courseId: string;
+}
+
+const RenderEditLessonForm = async ({
+  lessonId,
+  chapterId,
+  courseId,
+}: RenderEditLessonFormProps) => {
+  const lesson = await adminGetLesson(lessonId);
+  return (
+    <CardContent>
+      <EditLessonForm
+        chapterId={chapterId}
+        lesson={lesson}
+        courseId={courseId}
+      />
+    </CardContent>
+  );
+};

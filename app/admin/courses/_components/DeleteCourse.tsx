@@ -73,13 +73,13 @@ const DeleteCourse = ({
           >
             {isPending ? (
               <>
-                Deleting...
-                <Loader className="ml-2 size-4 animate-spin" />
+                <Loader className="size-4 animate-spin" />
+                <span>Deleting...</span>
               </>
             ) : (
               <>
-                Delete
-                <Trash className="ml-2 size-4" />
+                <Trash className="size-4" />
+                <span>Delete</span>
               </>
             )}
           </Button>
