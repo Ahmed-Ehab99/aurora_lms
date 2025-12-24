@@ -16,7 +16,14 @@ const AdminCoursesPage = () => {
         </Button>
       </div>
 
-      <Suspense fallback={<CourseCardSkeleton isInAdmin={true} />}>
+      <Suspense
+        fallback={
+          <CourseCardSkeleton
+            count={3}
+            className="grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+          />
+        }
+      >
         <RenderAdminCourses />
       </Suspense>
     </>

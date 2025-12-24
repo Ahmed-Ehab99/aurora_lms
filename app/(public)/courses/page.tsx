@@ -1,8 +1,10 @@
-import { publicGetCourses } from "@/app/data/public/public-get-courses";
+import { userGetCourses } from "@/app/data/user/user-get-courses";
 import CourseCard, {
   CourseCardSkeleton,
 } from "@/components/globals/CourseCard";
 import { Suspense } from "react";
+
+export const revalidate = 300; // 5 minutes
 
 const PublicCoursesPage = () => {
   return (
@@ -17,7 +19,14 @@ const PublicCoursesPage = () => {
         </p>
       </div>
 
-      <Suspense fallback={<CourseCardSkeleton />}>
+      <Suspense
+        fallback={
+          <CourseCardSkeleton
+            count={3}
+            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          />
+        }
+      >
         <RenderPublicCourses />
       </Suspense>
     </div>
@@ -27,7 +36,7 @@ const PublicCoursesPage = () => {
 export default PublicCoursesPage;
 
 const RenderPublicCourses = async () => {
-  const courses = await publicGetCourses();
+  const courses = await userGetCourses();
 
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

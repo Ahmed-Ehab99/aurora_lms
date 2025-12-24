@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/db";
+import { cache } from "react";
+import "server-only";
 
-export const publicGetCourses = async () => {
+export const userGetCourses = cache(async () => {
   const data = await prisma.course.findMany({
     where: {
       status: "Published",
@@ -22,7 +24,7 @@ export const publicGetCourses = async () => {
     },
   });
   return data;
-};
+});
 
 // Dynamic type
-export type PublicCourseType = Awaited<ReturnType<typeof publicGetCourses>>[0];
+export type UserCourseType = Awaited<ReturnType<typeof userGetCourses>>[0];

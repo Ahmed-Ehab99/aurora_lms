@@ -1,8 +1,7 @@
 import AdminCardMenu from "@/app/admin/courses/_components/AdminCardMenu";
 import { AdminCourseType } from "@/app/data/admin/admin-get-courses";
-import { PublicCourseType } from "@/app/data/public/public-get-courses";
+import { UserCourseType } from "@/app/data/user/user-get-courses";
 import { useConstructUrl } from "@/hooks/use-construct-url";
-import { cn } from "@/lib/utils";
 import { ArrowRight, DollarSign, School, Timer } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
@@ -19,7 +18,7 @@ type CourseCardProps =
       onDelete: (id: string) => void; // Required when isInAdmin is true
     }
   | {
-      course: PublicCourseType;
+      course: UserCourseType;
       isInAdmin?: false;
       onDelete?: never; // Not allowed when isInAdmin is false
     };
@@ -119,12 +118,16 @@ const CourseCard = ({ course, isInAdmin, onDelete }: CourseCardProps) => {
   );
 };
 
-export const CourseCardSkeleton = ({ isInAdmin }: { isInAdmin?: boolean }) => {
+export const CourseCardSkeleton = ({
+  className,
+  count,
+}: {
+  className: string;
+  count: number;
+}) => {
   return (
-    <div
-      className={`grid grid-cols-1 gap-6 ${cn(isInAdmin ? "md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3" : "md:grid-cols-2 lg:grid-cols-3")}`}
-    >
-      {Array.from({ length: 3 }).map((_, index) => (
+    <div className={`${className}`}>
+      {Array.from({ length: count }).map((_, index) => (
         <Card key={index} className="relative gap-0 py-0">
           <div className="absolute top-2 left-2 z-10">
             <Skeleton className="h-6 w-20 rounded-full" />
@@ -132,7 +135,7 @@ export const CourseCardSkeleton = ({ isInAdmin }: { isInAdmin?: boolean }) => {
           <div className="absolute top-2 right-2 z-10">
             <Skeleton className="size-9 rounded-md" />
           </div>
-          <Skeleton className="aspect-video h-full w-full rounded-t-lg object-cover" />
+          <Skeleton className="aspect-video h-full w-full rounded-t-xl object-cover" />
           <CardContent className="space-y-4 p-4">
             <Skeleton className="h-7 w-full" />
             <Skeleton className="h-9 w-full" />

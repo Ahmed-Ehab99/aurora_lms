@@ -23,6 +23,8 @@ export async function generateStaticParams() {
   }));
 }
 
+export const revalidate = 300; // 5 MIN
+
 const EditCoursePage = async ({ params }: { params: Params }) => {
   const { courseId } = await params;
   const course = await adminGetCourse(courseId);

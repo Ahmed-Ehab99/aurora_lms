@@ -1,102 +1,89 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
-
-import { Badge } from "@/components/ui/badge"
+import { adminGetDashboardStats } from "@/app/data/admin/admin-get-dashboard-stats";
+import { BorderBeam } from "@/components/ui/border-beam";
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
+import {
+  IconBook,
+  IconPlaylistX,
+  IconShoppingCart,
+  IconUsers,
+  type Icon,
+} from "@tabler/icons-react";
 
-export function SectionCards() {
+interface StatCardProps {
+  title: string;
+  value: number;
+  description: string;
+  icon: Icon;
+}
+
+function StatCard({ title, value, description, icon: Icon }: StatCardProps) {
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+    <Card className="group @container/card relative overflow-hidden">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <div>
+          <CardDescription>{title}</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {value}
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Visitors for the last 6 months
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>New Customers</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <IconTrendingDown className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Acquisition needs attention
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
-        </CardFooter>
-      </Card>
+        </div>
+        <div className="bg-primary/10 text-primary group-hover:bg-primary/50 flex h-12 w-12 items-center justify-center rounded-lg transition-colors">
+          <Icon className="text-muted-foreground size-6" />
+        </div>
+      </CardHeader>
+      <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <p className="text-muted-foreground">{description}</p>
+      </CardFooter>
+      <BorderBeam
+        duration={5}
+        size={100}
+        className="from-primary via-primary/50 to-transparent"
+      />
+    </Card>
+  );
+}
+
+export async function SectionCards() {
+  const { totalCourses, totalCustomers, totalLessons, totalSignups } =
+    await adminGetDashboardStats();
+
+  const stats: StatCardProps[] = [
+    {
+      title: "Total Signups",
+      value: totalSignups,
+      description: "Registered users on the platform",
+      icon: IconUsers,
+    },
+    {
+      title: "Total Customers",
+      value: totalCustomers,
+      description: "Users who have enrolled in courses",
+      icon: IconShoppingCart,
+    },
+    {
+      title: "Total Courses",
+      value: totalCourses,
+      description: "Available courses on the platform",
+      icon: IconBook,
+    },
+    {
+      title: "Total Lessons",
+      value: totalLessons,
+      description: "Total learning content available",
+      icon: IconPlaylistX,
+    },
+  ];
+
+  return (
+    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:shadow-xs md:gap-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+      {stats.map((stat) => (
+        <StatCard key={stat.title} {...stat} />
+      ))}
     </div>
-  )
+  );
 }

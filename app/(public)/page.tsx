@@ -1,9 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-// import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { auth } from "@/lib/auth";
-// import { headers } from "next/headers";
-// import Link from "next/link";
 
 interface FeaturesT {
   id: number;
@@ -44,10 +40,6 @@ const features: FeaturesT[] = [
 ];
 
 export default function Home() {
-  // const session = await auth.api.getSession({
-  //   headers: await headers(),
-  // });
-
   return (
     <>
       <section className="relative py-20">
@@ -60,21 +52,6 @@ export default function Home() {
             Discover a new way to learn with our modern, interactive learning
             management system. Access high-quality courses anytime, anywhere.
           </p>
-
-          {/* <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <Button asChild size="lg">
-              <Link href="/courses">Explore Courses</Link>
-            </Button>
-            {session ? (
-              <Button asChild size="lg" variant="outline">
-                <Link href="/admin/courses/create">Add Courses</Link>
-              </Button>
-            ) : (
-              <Button asChild size="lg" variant="outline">
-                <Link href="/login">Sign In</Link>
-              </Button>
-            )}
-          </div> */}
         </div>
       </section>
 

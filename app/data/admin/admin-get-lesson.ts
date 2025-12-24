@@ -1,8 +1,10 @@
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
+import { cache } from "react";
+import "server-only";
 import { requireAdmin } from "./require-admin";
 
-export async function adminGetLesson(id: string) {
+export const adminGetLesson = cache(async (id: string) => {
   await requireAdmin();
 
   const data = await prisma.lesson.findUnique({
@@ -24,7 +26,7 @@ export async function adminGetLesson(id: string) {
   }
 
   return data;
-}
+});
 
 // Dynamic type
 export type AdminLessonSingularType = Awaited<

@@ -1,10 +1,10 @@
-import { PublicCourseSingularType } from "@/app/data/public/public-get-course";
+import { UserCourseSingularType } from "@/app/data/user/user-get-course";
 import CourseContentSection from "./CourseContentSection";
 import CourseDescriptionSection from "./CourseDescriptionSection";
 import CourseEnrollmentCard from "./CourseEnrollmentCard";
 import CourseHeroSection from "./CourseHeroSection";
 
-const CourseDetails = ({ course }: { course: PublicCourseSingularType }) => {
+const CourseDetails = ({ course }: { course: UserCourseSingularType }) => {
   const {
     id,
     category,

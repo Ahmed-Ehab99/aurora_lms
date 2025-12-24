@@ -1,6 +1,6 @@
 "use server";
 
-import { requireUser } from "@/app/data/public/require-user";
+import { requireUser } from "@/app/data/user/require-user";
 import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
 import { prisma } from "@/lib/db";
 import { env } from "@/lib/env";

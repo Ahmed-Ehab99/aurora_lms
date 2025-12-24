@@ -1,7 +1,8 @@
 import arcjet, { createMiddleware, detectBot } from "@arcjet/next";
-import { getSessionCookie } from "better-auth/cookies";
+// import { getSessionCookie } from "better-auth/cookies";
 import { NextRequest, NextResponse } from "next/server";
 import { env } from "./lib/env";
+import { auth } from "./lib/auth";
 
 const aj = arcjet({
   key: env.ARCJET_KEY!,
@@ -20,22 +21,44 @@ const aj = arcjet({
 });
 
 async function proxy(request: NextRequest) {
-  const sessionCookie = getSessionCookie(request);
+  try {
+    // Get session from better-auth
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
 
-  if (!sessionCookie) {
+    // Check if session exists
+    if (!session) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    // Check if user has admin role
+    const isAdmin = session.user.role === "admin";
+
+    if (!isAdmin) {
+      // Redirect non-admin users to home or unauthorized page
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    // User is authenticated and is admin
+    return NextResponse.next();
+  } catch (error) {
+    console.error("Admin guard error:", error);
     return NextResponse.redirect(new URL("/login", request.url));
   }
+  // const sessionCookie = getSessionCookie(request);
 
-  return NextResponse.next();
+  // if (!sessionCookie) {
+  //   return NextResponse.redirect(new URL("/login", request.url));
+  // }
+
+  // return NextResponse.next();
 }
 
 export const config = {
-  // matcher tells Next.js which routes to run the middleware on.
-  // This runs the middleware on all routes except for static assets.
   matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth).*)"],
 };
 
-// Pass any existing middleware with the optional existingMiddleware prop
 export default createMiddleware(aj, async (request: NextRequest) => {
   if (request.nextUrl.pathname.startsWith("/admin")) {
     return proxy(request);

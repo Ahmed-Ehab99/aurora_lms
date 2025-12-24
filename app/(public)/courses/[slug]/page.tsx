@@ -1,4 +1,4 @@
-import { publicGetCourse } from "@/app/data/public/public-get-course";
+import { userGetCourse } from "@/app/data/user/user-get-course";
 import { prisma } from "@/lib/db";
 import CourseDetails from "./_components/CourseDetails";
 
@@ -22,7 +22,7 @@ export const revalidate = 300; // 5 MIN
 
 const PublicCoursePage = async ({ params }: { params: Params }) => {
   const { slug } = await params;
-  const course = await publicGetCourse(slug);
+  const course = await userGetCourse(slug);
 
   return <CourseDetails course={course} />;
 };

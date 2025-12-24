@@ -1,9 +1,9 @@
-import { checkIfCourseBought } from "@/app/data/public/user-is-enrolled";
+import { checkIfCourseBought } from "@/app/data/user/user-is-enrolled";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Book, ChartBar, Check, Clock, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 import EnrollmentButton from "./EnrollmentButton";
-import { Button } from "@/components/ui/button";
 
 interface CourseEnrollmentCardProps {
   courseId: string;

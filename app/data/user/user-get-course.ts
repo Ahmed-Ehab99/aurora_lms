@@ -1,7 +1,9 @@
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
+import { cache } from "react";
+import "server-only";
 
-export const publicGetCourse = async (slug: string) => {
+export const userGetCourse = cache(async (slug: string) => {
   const data = await prisma.course.findUnique({
     where: {
       slug: slug,
@@ -40,9 +42,7 @@ export const publicGetCourse = async (slug: string) => {
   if (!data) notFound();
 
   return data;
-};
+});
 
 // Dynamic type
-export type PublicCourseSingularType = Awaited<
-  ReturnType<typeof publicGetCourse>
->;
+export type UserCourseSingularType = Awaited<ReturnType<typeof userGetCourse>>;

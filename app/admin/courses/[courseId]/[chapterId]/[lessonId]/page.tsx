@@ -35,6 +35,8 @@ export async function generateStaticParams() {
   }));
 }
 
+export const revalidate = 300; // 5 MIN
+
 type Params = Promise<{
   courseId: string;
   chapterId: string;

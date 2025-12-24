@@ -3,26 +3,31 @@ import { cache } from "react";
 import "server-only";
 import { requireAdmin } from "./require-admin";
 
-export const adminGetCourses = cache(async () => {
+export const adminGetRecentCourses = cache(async () => {
   await requireAdmin();
+
   const data = await prisma.course.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 2,
     select: {
       id: true,
       title: true,
       smallDescription: true,
       duration: true,
       level: true,
-      status: true,
       price: true,
+      status: true,
       fileKey: true,
       slug: true,
     },
-    orderBy: {
-      createdAt: "desc",
-    },
   });
+
   return data;
 });
 
 // Dynamic type
-export type AdminCourseType = Awaited<ReturnType<typeof adminGetCourses>>[0];
+export type AdminRecentCoursesType = Awaited<
+  ReturnType<typeof adminGetRecentCourses>
+>;
