@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChartBarInteractive } from "./chart-bar-interactive";
+import { ChartBarInteractive } from "@/components/dashboard-layout/chart-bar-interactive";
 
 type TimeRange = "7d" | "30d" | "90d";
 

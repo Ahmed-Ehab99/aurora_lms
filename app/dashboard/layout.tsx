@@ -2,7 +2,7 @@ import { AppSidebar } from "@/components/dashboard-layout/app-sidebar";
 import { SiteHeader } from "@/components/dashboard-layout/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-export default async function AdminLayout({
+export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -16,7 +16,7 @@ export default async function AdminLayout({
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset" dashboardType="admin" />
+      <AppSidebar variant="inset" dashboardType="student" />
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">

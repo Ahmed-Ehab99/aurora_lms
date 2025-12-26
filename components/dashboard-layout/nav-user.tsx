@@ -115,15 +115,15 @@ export function NavUser() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard">
-                  <IconDashboard />
-                  Dashboard
+                <Link href="/courses">
+                  <IconDeviceTv />
+                  Courses
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/admin/courses">
-                  <IconDeviceTv />
-                  Courses
+                <Link href="/dashboard">
+                  <IconDashboard />
+                  Dashboard
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

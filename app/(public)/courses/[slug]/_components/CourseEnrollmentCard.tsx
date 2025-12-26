@@ -101,7 +101,7 @@ const CourseEnrollmentCard = async ({
           </div>
 
           {isEnrolled ? (
-            <Button className="w-full">
+            <Button className="w-full" asChild>
               <Link href="/dashboard">Watch Course</Link>
             </Button>
           ) : (

@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const navItems = [
+const adminNavItems = [
   {
     title: "Dashboard",
     url: "/admin",
@@ -33,8 +33,22 @@ const navItems = [
   },
 ];
 
-export function NavMain() {
+const studentNavItems = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: IconDashboard,
+  },
+];
+
+export function NavMain({
+  dashboardType,
+}: {
+  dashboardType: "admin" | "student";
+}) {
   const pathname = usePathname();
+  const navItems =
+    dashboardType === "student" ? studentNavItems : adminNavItems;
 
   return (
     <SidebarGroup>

@@ -26,7 +26,7 @@ const EmptyState = ({ title, description, buttonText, href }: EmptyStateProps) =
 
         <Button asChild className="mt-6">
           <Link href={href}>
-            <Plus className="mr-2 size-4" />
+            <Plus className="size-4" />
             {buttonText}
           </Link>
         </Button>

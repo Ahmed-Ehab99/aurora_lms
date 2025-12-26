@@ -293,11 +293,17 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
                       open={item.isOpen}
                       onOpenChange={() => toogleChapter(item.id)}
                     >
-                      <div className="border-border flex items-center justify-between border-b p-3">
+                      <div
+                        className={cn(
+                          "flex items-center justify-between p-3",
+                          item.isOpen ? "border-border border-b" : "",
+                        )}
+                      >
                         <div className="flex items-center gap-2">
                           <Button size="icon" variant="ghost" {...listeners}>
                             <GripVertical className="size-4" />
                           </Button>
+
                           <CollapsibleTrigger asChild>
                             <Button
                               size="icon"
@@ -311,16 +317,19 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
                               )}
                             </Button>
                           </CollapsibleTrigger>
+
                           <p className="hover:text-primary cursor-pointer pl-2">
                             {item.title}
                           </p>
                         </div>
+
                         <div className="flex items-center gap-1">
                           <EditChapterModal
                             chapterName={item.title}
                             chapterId={item.id}
                             courseId={course.id}
                           />
+
                           <DeleteChapter
                             chapterId={item.id}
                             courseId={course.id}
@@ -328,6 +337,7 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
                           />
                         </div>
                       </div>
+
                       <CollapsibleContent>
                         <div className="p-1">
                           <SortableContext
@@ -350,13 +360,16 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
                                       >
                                         <GripVertical className="size-4" />
                                       </Button>
+
                                       <FileText className="size-4" />
+                                      
                                       <Link
                                         href={`/admin/courses/${course.id}/${item.id}/${lesson.id}`}
                                       >
                                         {lesson.title}
                                       </Link>
                                     </div>
+
                                     <DeleteLesson
                                       chapterId={item.id}
                                       courseId={course.id}
@@ -368,6 +381,7 @@ const CourseStructure = ({ course }: CourseStructureProps) => {
                               </SortableItem>
                             ))}
                           </SortableContext>
+
                           <div className="p-2">
                             <CreateLessonModal
                               chapterId={item.id}

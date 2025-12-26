@@ -16,7 +16,7 @@ interface NavigationItemT {
 const navigationItems: NavigationItemT[] = [
   { id: 1, name: "Home", href: "/" },
   { id: 2, name: "Courses", href: "/courses" },
-  { id: 3, name: "Dashboard", href: "/admin" },
+  { id: 3, name: "Dashboard", href: "/dashboard" },
 ];
 
 const Navbar = async () => {

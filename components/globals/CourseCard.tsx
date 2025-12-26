@@ -72,7 +72,9 @@ const CourseCard = ({ course, isInAdmin, onDelete }: CourseCardProps) => {
             title={title}
           />
         ) : (
-          <Badge>{category}</Badge>
+          <Badge className="px-2.5 py-1 text-xs font-semibold">
+            {category}
+          </Badge>
         )}
       </div>
 
@@ -133,7 +135,7 @@ export const CourseCardSkeleton = ({
             <Skeleton className="h-6 w-20 rounded-full" />
           </div>
           <div className="absolute top-2 right-2 z-10">
-            <Skeleton className="size-9 rounded-md" />
+            <Skeleton className="h-6 w-32 rounded-full" />
           </div>
           <Skeleton className="aspect-video h-full w-full rounded-t-xl object-cover" />
           <CardContent className="space-y-4 p-4">

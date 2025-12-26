@@ -1,5 +1,5 @@
-import { NavMain } from "@/app/admin/_components/nav-main";
-import { NavUser } from "@/app/admin/_components/nav-user";
+import { NavMain } from "@/components/dashboard-layout/nav-main";
+import { NavUser } from "@/components/dashboard-layout/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +14,11 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  dashboardType: "admin" | "student";
+}
+
+export function AppSidebar({ dashboardType, ...props }: AppSidebarProps) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -33,7 +37,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain />
+        <NavMain dashboardType={dashboardType} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
