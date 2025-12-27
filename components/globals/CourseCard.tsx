@@ -55,13 +55,15 @@ const CourseCard = ({ course, isInAdmin, onDelete }: CourseCardProps) => {
 
   return (
     <Card className="group relative gap-0 py-0">
-      <div className="absolute top-2 left-2 z-10">
-        <Badge
-          className={`px-2.5 py-1 text-xs font-semibold ${getStatusStyle()}`}
-        >
-          {status}
-        </Badge>
-      </div>
+      {isInAdmin && (
+        <div className="absolute top-2 left-2 z-10">
+          <Badge
+            className={`px-2.5 py-1 text-xs font-semibold ${getStatusStyle()}`}
+          >
+            {status}
+          </Badge>
+        </div>
+      )}
 
       <div className="absolute top-2 right-2 z-10">
         {isInAdmin ? (
@@ -131,12 +133,6 @@ export const CourseCardSkeleton = ({
     <div className={`${className}`}>
       {Array.from({ length: count }).map((_, index) => (
         <Card key={index} className="relative gap-0 py-0">
-          <div className="absolute top-2 left-2 z-10">
-            <Skeleton className="h-6 w-20 rounded-full" />
-          </div>
-          <div className="absolute top-2 right-2 z-10">
-            <Skeleton className="h-6 w-32 rounded-full" />
-          </div>
           <Skeleton className="aspect-video h-full w-full rounded-t-xl object-cover" />
           <CardContent className="space-y-4 p-4">
             <Skeleton className="h-7 w-full" />

@@ -1,7 +1,7 @@
 import { userGetCourseSidebar } from "@/app/data/user/user-get-course-sidebar";
 import CourseSidebar from "./_components/CourseSidebar";
 
-type Params = Promise<{ slug: string }>;
+export type Params = Promise<{ slug: string }>;
 
 export default async function CourseLayout({
   params,

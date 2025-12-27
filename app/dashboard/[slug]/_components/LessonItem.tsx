@@ -12,21 +12,23 @@ interface LessonItemProps {
   };
   slug: string;
   isActive?: boolean;
+  completed: boolean;
 }
 
-const LessonItem = ({ lesson, slug, isActive }: LessonItemProps) => {
-  const completed = false;
+const completedStyle =
+  "border border-green-300 bg-green-100 text-green-800 hover:bg-green-200 dark:border-green-700 dark:bg-green-900/30 dark:text-gray-200 dark:hover:bg-green-900/50";
 
+const activeStyle =
+  "bg-primary/10 dark:bg-primary/20 border-primary/50 hover:bg-primary/20 dark:hover:bg-primary/30 text-primary";
+
+const LessonItem = ({ lesson, slug, isActive, completed }: LessonItemProps) => {
   return (
     <Button
       variant={completed ? "secondary" : "outline"}
       className={cn(
         "h-auto w-full justify-start p-2.5 transition-all",
-        completed &&
-          "border border-green-300 bg-green-100 text-green-800 hover:bg-green-200 dark:border-green-700 dark:bg-green-900/30 dark:text-gray-200 dark:hover:bg-green-900/50",
-        isActive &&
-          !completed &&
-          "bg-primary/10 dark:bg-primary/20 border-primary/50 hover:bg-primary/20 dark:hover:bg-primary/30 text-primary",
+        completed && completedStyle,
+        isActive && !completed && activeStyle,
       )}
       asChild
     >
@@ -69,11 +71,6 @@ const LessonItem = ({ lesson, slug, isActive }: LessonItemProps) => {
             >
               {lesson.position}. {lesson.title}
             </p>
-            {completed && (
-              <p className="text-xs font-medium text-green-700 dark:text-green-300">
-                Completed
-              </p>
-            )}
           </div>
         </div>
       </Link>

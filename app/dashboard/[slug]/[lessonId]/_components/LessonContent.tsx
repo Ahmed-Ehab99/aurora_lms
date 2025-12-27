@@ -1,14 +1,44 @@
+"use client";
+
 import { UserLessonContentType } from "@/app/data/user/user-get-lesson-content";
 import RenderDescription from "@/components/rich-text-editor/RenderDescription";
 import { Button } from "@/components/ui/button";
+import { confettiStars } from "@/components/ui/confetti";
+import { tryCatch } from "@/hooks/try-catch";
 import { useConstructUrl } from "@/hooks/use-construct-url";
-import { Book, CheckCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Book, CheckCircle, Loader } from "lucide-react";
+import { useTransition } from "react";
+import { toast } from "sonner";
+import { markLessonComplete } from "../actions";
 
 interface LessonContentProps {
   lesson: UserLessonContentType;
 }
 
 const LessonContent = ({ lesson }: LessonContentProps) => {
+  const [isPending, startTransition] = useTransition();
+
+  function onSubmit() {
+    startTransition(async () => {
+      const { data: result, error } = await tryCatch(
+        markLessonComplete(lesson.id, lesson.chapter.course.slug),
+      );
+
+      if (error) {
+        toast.error("An unexpected error occurred. Please try again.");
+        return;
+      }
+
+      if (result.status === "success") {
+        toast.success(result.message);
+        confettiStars();
+      } else if (result.status === "error") {
+        toast.error(result.message);
+      }
+    });
+  }
+
   return (
     <div className="bg-background flex h-full flex-col pl-6">
       <VideoPlayer
@@ -17,9 +47,28 @@ const LessonContent = ({ lesson }: LessonContentProps) => {
       />
 
       <div className="border-b py-4">
-        <Button variant="outline">
-          <CheckCircle className="mr-2 size-4 text-green-500" />
-          <span>Mark as Complete</span>
+        <Button
+          variant="outline"
+          onClick={onSubmit}
+          disabled={isPending}
+          className={cn(lesson.lessonProgress.length > 0 && "bg-green-500/10")}
+        >
+          {isPending ? (
+            <>
+              <Loader className="size-4 animate-spin text-green-500" />
+              <span>Marking...</span>
+            </>
+          ) : lesson.lessonProgress.length > 0 ? (
+            <>
+              <CheckCircle className="size-4 text-green-500" />
+              <span className="text-green-500">Completed</span>
+            </>
+          ) : (
+            <>
+              <CheckCircle className="size-4 text-green-500" />
+              <span>Mark as Complete</span>
+            </>
+          )}
         </Button>
       </div>
 

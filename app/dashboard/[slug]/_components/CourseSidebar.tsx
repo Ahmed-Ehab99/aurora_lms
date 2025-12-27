@@ -8,7 +8,9 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Progress } from "@/components/ui/progress";
-import { ChevronDown, Play } from "lucide-react";
+import { useCourseProgress } from "@/hooks/use-course-progress";
+import { cn } from "@/lib/utils";
+import { Check, ChevronDown, Play } from "lucide-react";
 import { usePathname } from "next/navigation";
 import LessonItem from "./LessonItem";
 
@@ -20,6 +22,18 @@ const CourseSidebar = ({ course }: CourseSidebar) => {
   const pathname = usePathname();
   const { category, chapter, title } = course;
   const currentLessonId = pathname.split("/").pop();
+  const { completedLessons, progressPercentage, totalLessons } =
+    useCourseProgress({ course });
+
+  const isChapterCompleted = (
+    chapterLessons: (typeof chapter)[0]["lessons"],
+  ) => {
+    return chapterLessons.every((lesson) =>
+      lesson.lessonProgress.some(
+        (progress) => progress.lessonId === lesson.id && progress.completed,
+      ),
+    );
+  };
 
   return (
     <div className="flex h-full flex-col">
@@ -45,51 +59,82 @@ const CourseSidebar = ({ course }: CourseSidebar) => {
         <div className="space-y-2">
           <div className="flex justify-between text-xs">
             <span className="text-muted-foreground">Progress</span>
-            <span className="font-medium">4/10 Lessons</span>
+            <span className="font-medium">
+              {completedLessons}/{totalLessons} Lessons
+            </span>
           </div>
-          <Progress value={55} className="h-1.5" />
-          <p className="text-muted-foreground text-xs">55% Complete</p>
+          <Progress value={progressPercentage} className="h-1.5" />
+          <p className="text-muted-foreground text-xs">
+            {progressPercentage}% Complete
+          </p>
         </div>
       </div>
 
       <div className="space-y-3 py-4 pr-4">
-        {chapter.map((chapter, index) => (
-          <Collapsible key={chapter.id} defaultOpen={index === 0}>
-            <CollapsibleTrigger asChild>
-              <Button
-                variant="outline"
-                className="flex h-auto w-full items-center gap-2 p-3"
-              >
-                <div className="shrink-0">
-                  <ChevronDown className="text-primary size-4" />
-                </div>
-                <div className="min-w-0 flex-1 text-left">
-                  <div>
-                    <p
-                      title={chapter.title}
-                      className="text-foreground truncate text-sm font-semibold"
-                    >
-                      {chapter.position}: {chapter.title}
-                    </p>
-                    <p className="text-muted-foreground truncate text-xs font-medium">
-                      {chapter.lessons.length} Lessons
-                    </p>
+        {chapter.map((chapter, index) => {
+          const chapterCompleted = isChapterCompleted(chapter.lessons);
+
+          return (
+            <Collapsible key={chapter.id} defaultOpen={index === 0}>
+              <CollapsibleTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "flex h-auto w-full items-center gap-2 p-3",
+                    chapterCompleted &&
+                      "border-green-500 bg-green-500 hover:bg-green-600 dark:border-green-600 dark:bg-green-600 dark:hover:bg-green-700",
+                  )}
+                >
+                  <div className="shrink-0">
+                    {chapterCompleted ? (
+                      <Check className="size-4 text-white" />
+                    ) : (
+                      <ChevronDown className="text-primary size-4" />
+                    )}
                   </div>
-                </div>
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="mt-3 space-y-3 border-l-2 pl-6">
-              {chapter.lessons.map((lesson) => (
-                <LessonItem
-                  key={lesson.id}
-                  lesson={lesson}
-                  slug={course.slug}
-                  isActive={currentLessonId === lesson.id}
-                />
-              ))}
-            </CollapsibleContent>
-          </Collapsible>
-        ))}
+                  <div className="min-w-0 flex-1 text-left">
+                    <div>
+                      <p
+                        title={chapter.title}
+                        className={cn(
+                          "truncate text-sm font-semibold",
+                          chapterCompleted ? "text-white" : "text-foreground",
+                        )}
+                      >
+                        {chapter.position}: {chapter.title}
+                      </p>
+                      <p
+                        className={cn(
+                          "truncate text-xs font-medium",
+                          chapterCompleted
+                            ? "text-white/80"
+                            : "text-muted-foreground",
+                        )}
+                      >
+                        {chapter.lessons.length} Lessons
+                      </p>
+                    </div>
+                  </div>
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="mt-3 space-y-3 border-l-2 pl-6">
+                {chapter.lessons.map((lesson) => (
+                  <LessonItem
+                    key={lesson.id}
+                    lesson={lesson}
+                    slug={course.slug}
+                    isActive={currentLessonId === lesson.id}
+                    completed={
+                      lesson.lessonProgress.find(
+                        (progress) => progress.lessonId === lesson.id,
+                      )?.completed || false
+                    }
+                  />
+                ))}
+              </CollapsibleContent>
+            </Collapsible>
+          );
+        })}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import "server-only";
 import { requireUser } from "./require-user";
 
 export const userGetCourseSidebar = cache(async (slug: string) => {
-  const session = await requireUser();
+  const user = await requireUser();
 
   const course = await prisma.course.findUnique({
     where: {
@@ -34,6 +34,16 @@ export const userGetCourseSidebar = cache(async (slug: string) => {
               title: true,
               position: true,
               description: true,
+              lessonProgress: {
+                where: {
+                  userId: user.id,
+                },
+                select: {
+                  completed: true,
+                  lessonId: true,
+                  id: true,
+                },
+              },
             },
           },
         },
@@ -48,7 +58,7 @@ export const userGetCourseSidebar = cache(async (slug: string) => {
   const enrollment = await prisma.enrollment.findUnique({
     where: {
       userId_courseId: {
-        userId: session.id,
+        userId: user.id,
         courseId: course.id,
       },
     },

@@ -58,7 +58,8 @@ export const ModelName = {
   Course: 'Course',
   Chapter: 'Chapter',
   Lesson: 'Lesson',
-  Enrollment: 'Enrollment'
+  Enrollment: 'Enrollment',
+  LessonProgress: 'LessonProgress'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -99,12 +100,12 @@ export const SessionScalarFieldEnum = {
   id: 'id',
   expiresAt: 'expiresAt',
   token: 'token',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
-  userId: 'userId',
-  impersonatedBy: 'impersonatedBy'
+  impersonatedBy: 'impersonatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -114,7 +115,6 @@ export const AccountScalarFieldEnum = {
   id: 'id',
   accountId: 'accountId',
   providerId: 'providerId',
-  userId: 'userId',
   accessToken: 'accessToken',
   refreshToken: 'refreshToken',
   idToken: 'idToken',
@@ -123,7 +123,8 @@ export const AccountScalarFieldEnum = {
   scope: 'scope',
   password: 'password',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 } as const
 
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
@@ -200,6 +201,18 @@ export const EnrollmentScalarFieldEnum = {
 } as const
 
 export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
+
+
+export const LessonProgressScalarFieldEnum = {
+  id: 'id',
+  completed: 'completed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId',
+  lessonId: 'lessonId'
+} as const
+
+export type LessonProgressScalarFieldEnum = (typeof LessonProgressScalarFieldEnum)[keyof typeof LessonProgressScalarFieldEnum]
 
 
 export const SortOrder = {
