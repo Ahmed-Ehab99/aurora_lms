@@ -23,19 +23,19 @@ const ChapterContentCard = ({ chapter, index }: ChapterContentCardProps) => {
     <Card className="gap-0 overflow-hidden border-2 p-0 transition-all duration-200 hover:shadow-md">
       <CollapsibleTrigger>
         <div>
-          <CardContent className="hover:bg-muted/50 p-6 transition-colors">
-            <div className="flex items-center justify-between">
+          <CardContent className="hover:bg-muted/50 p-4 transition-colors md:p-6">
+            <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-4">
-                <p className="bg-primary/10 text-primary flex size-10 items-center justify-center rounded-full font-semibold">
+                <p className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded-full font-semibold md:size-10">
                   {index + 1}
                 </p>
 
                 <div>
-                  <h3 className="text-left text-xl font-semibold">
+                  <h3 className="text-left text-sm font-semibold md:text-xl">
                     {chapter.title}
                   </h3>
 
-                  <p className="text-muted-foreground mt-1 text-left text-sm">
+                  <p className="text-muted-foreground mt-1 text-left text-xs md:text-sm">
                     {chapter.lessons.length} Lesson
                     {chapter.lessons.length !== 1 ? "s" : ""}
                   </p>
@@ -43,7 +43,7 @@ const ChapterContentCard = ({ chapter, index }: ChapterContentCardProps) => {
               </div>
 
               <div className="flex items-center gap-3">
-                <Badge variant="outline" className="text-xs">
+                <Badge variant="outline" className="hidden text-xs md:block">
                   {chapter.lessons.length} Lesson
                   {chapter.lessons.length !== 1 ? "s" : ""}
                 </Badge>
@@ -56,7 +56,7 @@ const ChapterContentCard = ({ chapter, index }: ChapterContentCardProps) => {
 
       <CollapsibleContent>
         <div className="bg-muted/20 border-t">
-          <div className="space-y-3 p-6 pt-4">
+          <div className="space-y-3 p-4 pt-4 md:p-6">
             {chapter.lessons.map((lesson, index) => (
               <div
                 key={lesson.id}

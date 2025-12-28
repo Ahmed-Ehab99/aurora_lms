@@ -41,7 +41,7 @@ export { Prisma }
 
 /**
  * Model User
- * //////////////////////////////////////////////
+ * 
  */
 export type User = Prisma.UserModel
 /**

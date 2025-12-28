@@ -1,7 +1,10 @@
 "use server";
 
 import { requireAdmin } from "@/app/data/admin/require-admin";
-import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
+import {
+  ajProtection,
+  handleArcjetDecisionAction,
+} from "@/hooks/aj-protection";
 import { prisma } from "@/lib/db";
 import { ApiResponse } from "@/lib/types";
 import { request } from "@arcjet/next";
@@ -20,7 +23,7 @@ export const deleteCourse = async (courseId: string): Promise<ApiResponse> => {
     const decision = await aj.protect(req, {
       fingerprint: session?.user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     await prisma.course.delete({

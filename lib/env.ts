@@ -26,6 +26,8 @@ export const env = createEnv({
 
     STRIPE_SECRETE_KEY: z.string().min(1),
     STRIPE_WEBHOOK_SECRET: z.string().min(1),
+
+    ADMIN_EMAILS: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES: z.string().min(1),

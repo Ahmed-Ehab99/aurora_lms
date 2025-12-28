@@ -1,7 +1,7 @@
 import { userGetCourseSidebar } from "@/app/data/user/user-get-course-sidebar";
 import CourseSidebar from "./_components/CourseSidebar";
 
-export type Params = Promise<{ slug: string }>;
+type Params = Promise<{ slug: string }>;
 
 export default async function CourseLayout({
   params,
@@ -16,7 +16,7 @@ export default async function CourseLayout({
   return (
     <div className="flex flex-1">
       {/* Sidebar 30% */}
-      <div className="border-border w-80 shrink-0 border-r">
+      <div className="border-border sticky top-6 h-screen w-80 shrink-0 overflow-y-auto border-r">
         <CourseSidebar course={course.course} />
       </div>
 

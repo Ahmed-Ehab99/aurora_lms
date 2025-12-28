@@ -30,6 +30,7 @@ const CourseHeroSection = ({
           alt={title}
           fill
           priority
+          loading="eager"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
@@ -39,13 +40,13 @@ const CourseHeroSection = ({
         <div className="space-y-4">
           <h1
             title={title}
-            className="line-clamp-2 text-4xl font-bold tracking-tight wrap-break-word whitespace-normal"
+            className="line-clamp-2 text-2xl font-bold tracking-tight wrap-break-word whitespace-normal md:text-4xl"
           >
             {title}
           </h1>
           <p
             title={smallDescription}
-            className="text-muted-foreground line-clamp-2 text-lg leading-relaxed wrap-break-word whitespace-normal"
+            className="text-muted-foreground line-clamp-2 text-sm leading-relaxed wrap-break-word whitespace-normal md:text-lg"
           >
             {smallDescription}
           </p>

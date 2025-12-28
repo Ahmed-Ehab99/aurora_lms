@@ -19,6 +19,7 @@ import { tryCatch } from "@/hooks/try-catch";
 import { lessonSchema, LessonSchemaType } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Edit, Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -32,6 +33,7 @@ interface LessonFormProps {
 
 const EditLessonForm = ({ lesson, chapterId, courseId }: LessonFormProps) => {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(lessonSchema),
     defaultValues: {
@@ -43,6 +45,8 @@ const EditLessonForm = ({ lesson, chapterId, courseId }: LessonFormProps) => {
       videoKey: lesson.videoKey ?? undefined,
     },
   });
+
+  const { isDirty } = form.formState;
 
   function onSubmit(values: LessonSchemaType) {
     startTransition(async () => {
@@ -57,6 +61,7 @@ const EditLessonForm = ({ lesson, chapterId, courseId }: LessonFormProps) => {
 
       if (result.status === "success") {
         toast.success(result.message);
+        router.push(`/admin/courses/${courseId}/edit`);
       } else if (result.status === "error") {
         toast.error(result.message);
       }
@@ -135,7 +140,7 @@ const EditLessonForm = ({ lesson, chapterId, courseId }: LessonFormProps) => {
         />
 
         {/* SUBMIT BUTTON */}
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending || !isDirty}>
           {isPending ? (
             <>
               <Loader className="size-4 animate-spin" />

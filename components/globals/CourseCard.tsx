@@ -114,7 +114,7 @@ const CourseCard = ({ course, isInAdmin, onDelete }: CourseCardProps) => {
               Edit Course <ArrowRight className="size-4" />
             </Link>
           ) : (
-            <Link href={`/courses/${slug}`}>Learn More</Link>
+            <Link href={`/courses/${slug}`}>Explore Course</Link>
           )}
         </Button>
       </CardContent>

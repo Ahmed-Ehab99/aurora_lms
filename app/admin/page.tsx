@@ -2,12 +2,17 @@ import { SectionCards } from "@/components/dashboard-layout/section-cards";
 import { CourseCardSkeleton } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { adminGetEnrollmentsStats } from "../data/admin/admin-get-enrollments-stats";
 import { adminGetRecentCourses } from "../data/admin/admin-get-recent-courses";
 import { EnrollmentsChart } from "./_components/EnrollmentChart";
 import { RecentCourses } from "./_components/RecentCourses";
+
+export const metadata: Metadata = {
+  title: "Admin Dashboard",
+};
 
 export default async function AdminPage() {
   const [data7d, data30d, data90d] = await Promise.all([

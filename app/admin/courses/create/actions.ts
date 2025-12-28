@@ -1,7 +1,10 @@
 "use server";
 
 import { requireAdmin } from "@/app/data/admin/require-admin";
-import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
+import {
+  ajProtection,
+  handleArcjetDecisionAction,
+} from "@/hooks/aj-protection";
 import { prisma } from "@/lib/db";
 import { env } from "@/lib/env";
 import { courseSchema, CourseSchemaType } from "@/lib/schemas";
@@ -24,7 +27,7 @@ export const createCourse = async (
     const decision = await aj.protect(req, {
       fingerprint: session?.user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     const result = courseSchema.safeParse(values);

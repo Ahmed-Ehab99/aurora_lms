@@ -1,10 +1,26 @@
 import { userGetCourseSidebar } from "@/app/data/user/user-get-course-sidebar";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Params } from "./layout";
+
+type Params = Promise<{ slug: string }>;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const course = await userGetCourseSidebar(slug);
+
+  return {
+    title: course.course.title,
+  };
+}
 
 const CourseViewPage = async ({ params }: { params: Params }) => {
   const { slug } = await params;
   const course = await userGetCourseSidebar(slug);
+
   const firstChapter = course.course.chapter[0];
   const firstLesson = firstChapter.lessons[0];
 

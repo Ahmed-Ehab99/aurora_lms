@@ -50,7 +50,7 @@ const RichTextEditor = <T extends FieldValues>({
     editorProps: {
       attributes: {
         class:
-          "min-h-80 px-3 py-2 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert w-full! max-w-none! md:text-sm! text-base",
+          "h-80 px-3 py-2 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert w-full! max-w-none! md:text-sm! text-base overflow-y-auto",
       },
     },
     onUpdate: ({ editor }) => {

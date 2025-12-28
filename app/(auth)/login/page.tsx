@@ -5,20 +5,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { Metadata } from "next";
 import SigninEmail from "./_components/SigninEmail";
 import SigninGithubBtn from "./_components/SigninGithubBtn";
 import SigninGoogleBtn from "./_components/SigninGoogleBtn";
 
-const LoginPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export const metadata: Metadata = {
+  title: "Sign in/up",
+};
 
-  if (session) redirect("/");
-
+const LoginPage = () => {
   return (
     <Card>
       <CardHeader>
@@ -30,7 +26,6 @@ const LoginPage = async () => {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4">
-        {/* Client Buttons Components */}
         <div className="flex flex-col gap-3">
           <SigninGithubBtn />
           <SigninGoogleBtn />

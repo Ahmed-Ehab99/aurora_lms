@@ -1,6 +1,7 @@
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
+import { Role } from "@/prisma/generated/prisma/enums";
 import Logo from "@/public/logo.webp";
 import { headers } from "next/headers";
 import Image from "next/image";
@@ -24,10 +25,12 @@ const Navbar = async () => {
     headers: await headers(),
   });
 
+  const isAdmin = session?.user.role === Role.Admin;
+
   return (
     <header className="bg-background/95 sticky top-0 z-50 w-full border-b backdrop-blur">
       <div className="container mx-auto px-4">
-        <div className="grid min-h-16 grid-cols-3 items-center gap-4">
+        <div className="flex min-h-16 items-center justify-between">
           <div className="flex justify-start">
             <Link href="/" className="flex items-center space-x-2">
               <Image
@@ -51,6 +54,14 @@ const Navbar = async () => {
                   {item.name}
                 </Link>
               ))}
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="hover:text-primary font-medium transition-colors"
+                >
+                  Admin Dashboard
+                </Link>
+              )}
             </div>
           </nav>
 
@@ -63,6 +74,7 @@ const Navbar = async () => {
                 name={session.user.name}
                 email={session.user.email}
                 image={session.user.image}
+                isAdmin={isAdmin}
               />
             ) : (
               <>

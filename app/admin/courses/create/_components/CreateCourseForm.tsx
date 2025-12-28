@@ -57,6 +57,8 @@ const CreateCourseForm = () => {
     },
   });
 
+  const { isDirty } = form.formState;
+
   function onSubmit(values: CourseSchemaType) {
     startTransition(async () => {
       const { data: result, error } = await tryCatch(createCourse(values));
@@ -320,7 +322,7 @@ const CreateCourseForm = () => {
         />
 
         {/* SUBMIT BUTTON */}
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending || !isDirty}>
           {isPending ? (
             <>
               <Loader className="size-4 animate-spin" />

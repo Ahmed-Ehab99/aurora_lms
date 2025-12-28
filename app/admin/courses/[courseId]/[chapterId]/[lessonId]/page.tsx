@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { prisma } from "@/lib/db";
 import { ArrowLeft } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import EditLessonForm, {
@@ -35,13 +36,24 @@ export async function generateStaticParams() {
   }));
 }
 
-export const revalidate = 300; // 5 MIN
-
 type Params = Promise<{
   courseId: string;
   chapterId: string;
   lessonId: string;
 }>;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { lessonId } = await params;
+  const lesson = await adminGetLesson(lessonId);
+
+  return {
+    title: lesson.title,
+  };
+}
 
 const EditLessonPage = async ({ params }: { params: Params }) => {
   const { chapterId, courseId, lessonId } = await params;

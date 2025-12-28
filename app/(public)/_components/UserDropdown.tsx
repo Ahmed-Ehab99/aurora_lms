@@ -10,16 +10,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSignout } from "@/hooks/use-signout";
-import { BookOpen, Home, LayoutDashboardIcon, LogOutIcon } from "lucide-react";
+import { BookOpen, Home, LayoutDashboard, LogOutIcon } from "lucide-react";
 import Link from "next/link";
 
 interface UserDropdownProps {
   name: string;
   email: string;
   image?: string | null;
+  isAdmin: boolean;
 }
 
-const UserDropdown = ({ name, email, image }: UserDropdownProps) => {
+const UserDropdown = ({ name, email, image, isAdmin }: UserDropdownProps) => {
   const handleSignout = useSignout();
 
   return (
@@ -60,8 +61,8 @@ const UserDropdown = ({ name, email, image }: UserDropdownProps) => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/admin">
-            <LayoutDashboardIcon
+          <Link href="/dashboard">
+            <LayoutDashboard
               size={16}
               className="opacity-60"
               aria-hidden="true"
@@ -69,6 +70,18 @@ const UserDropdown = ({ name, email, image }: UserDropdownProps) => {
             <span>Dashboard</span>
           </Link>
         </DropdownMenuItem>
+        {isAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/admin">
+              <LayoutDashboard
+                size={16}
+                className="opacity-60"
+                aria-hidden="true"
+              />
+              <span>Admin Dashboard</span>
+            </Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignout}>
           <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />

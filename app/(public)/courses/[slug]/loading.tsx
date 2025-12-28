@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const Loading = () => {
   return (
-    <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <div className="my-8 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3">
       <div className="order-1 lg:col-span-2">
         <div className="space-y-8">
           <div className="relative aspect-video w-full rounded-xl shadow-lg">
@@ -12,20 +12,20 @@ const Loading = () => {
           </div>
           <div className="space-y-6">
             <div className="space-y-4">
-              <Skeleton className="h-20 w-full" />
-              <Skeleton className="h-14.5 w-full" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-8 w-full" />
             </div>
             <div className="flex flex-wrap gap-3">
+              <Skeleton className="h-6.5 w-29 rounded-full" />
               <Skeleton className="h-6.5 w-40 rounded-full" />
-              <Skeleton className="h-6.5 w-40 rounded-full" />
-              <Skeleton className="h-6.5 w-40 rounded-full" />
+              <Skeleton className="h-6.5 w-25 rounded-full" />
             </div>
           </div>
         </div>
         <Separator className="my-8" />
         <div className="space-y-6">
-          <Skeleton className="h-9 w-64.5" />
-          <Skeleton className="min-h-40 w-full" />
+          <Skeleton className="h-9 w-80" />
+          <Skeleton className="min-h-96 w-full" />
         </div>
         <div className="mt-12 space-y-6">
           <div className="flex items-center justify-between">

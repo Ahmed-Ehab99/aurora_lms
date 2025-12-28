@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { prisma } from "@/lib/db";
+import { Metadata } from "next";
 import CourseStructure from "./_components/CourseStructure";
 import EditCourseForm from "./_components/EditCourseForm";
 
@@ -23,7 +24,18 @@ export async function generateStaticParams() {
   }));
 }
 
-export const revalidate = 300; // 5 MIN
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { courseId } = await params;
+  const course = await adminGetCourse(courseId);
+
+  return {
+    title: course.title,
+  };
+}
 
 const EditCoursePage = async ({ params }: { params: Params }) => {
   const { courseId } = await params;

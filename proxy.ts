@@ -1,8 +1,7 @@
 import arcjet, { createMiddleware, detectBot } from "@arcjet/next";
-// import { getSessionCookie } from "better-auth/cookies";
 import { NextRequest, NextResponse } from "next/server";
-import { env } from "./lib/env";
 import { auth } from "./lib/auth";
+import { env } from "./lib/env";
 
 const aj = arcjet({
   key: env.ARCJET_KEY!,
@@ -14,55 +13,41 @@ const aj = arcjet({
         "CATEGORY:SEARCH_ENGINE", // Index data for search engines (Google, Bing, etc)
         "CATEGORY:MONITOR", // Interact for monitoring purposes (Uptime monitoring services),
         "CATEGORY:PREVIEW", // Link previews e.g. Slack, Discord
-        "STRIPE_WEBHOOK" // Stripe webhook for payment
+        "STRIPE_WEBHOOK", // Stripe webhook for payment
       ],
     }),
   ],
 });
 
-async function proxy(request: NextRequest) {
-  try {
-    // Get session from better-auth
-    const session = await auth.api.getSession({
-      headers: request.headers,
-    });
+export default createMiddleware(aj, async (request: NextRequest) => {
+  const pathname = request.nextUrl.pathname;
 
-    // Check if session exists
+  // Get session once
+  const session = await auth.api.getSession({
+    headers: request.headers,
+  });
+
+  // If user is logged in and tries to access /login
+  if (pathname === "/login" && session) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // Admin routes protection
+  if (pathname.startsWith("/admin")) {
     if (!session) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
-    // Check if user has admin role
-    const isAdmin = session.user.role === "admin";
-
-    if (!isAdmin) {
-      // Redirect non-admin users to home or unauthorized page
+    if (session.user.role !== "Admin") {
       return NextResponse.redirect(new URL("/", request.url));
     }
 
-    // User is authenticated and is admin
     return NextResponse.next();
-  } catch (error) {
-    console.error("Admin guard error:", error);
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-  // const sessionCookie = getSessionCookie(request);
-
-  // if (!sessionCookie) {
-  //   return NextResponse.redirect(new URL("/login", request.url));
-  // }
-
-  // return NextResponse.next();
-}
-
-export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth).*)"],
-};
-
-export default createMiddleware(aj, async (request: NextRequest) => {
-  if (request.nextUrl.pathname.startsWith("/admin")) {
-    return proxy(request);
   }
 
   return NextResponse.next();
 });
+
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth).*)"],
+};

@@ -9,6 +9,11 @@ import {
 import { Home } from "lucide-react";
 import Link from "next/link";
 import CreateCourseForm from "./_components/CreateCourseForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create Course",
+};
 
 const CourseCreationPage = () => {
   return (

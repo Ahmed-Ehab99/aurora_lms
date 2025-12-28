@@ -19,11 +19,11 @@ interface CourseSidebar {
 }
 
 const CourseSidebar = ({ course }: CourseSidebar) => {
-  const pathname = usePathname();
-  const { category, chapter, title } = course;
-  const currentLessonId = pathname.split("/").pop();
   const { completedLessons, progressPercentage, totalLessons } =
     useCourseProgress({ course });
+  const pathname = usePathname();
+  const currentLessonId = pathname.split("/").pop();
+  const { category, chapter, title } = course;
 
   const isChapterCompleted = (
     chapterLessons: (typeof chapter)[0]["lessons"],
@@ -36,8 +36,9 @@ const CourseSidebar = ({ course }: CourseSidebar) => {
   };
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="border-border border-b pr-4 pb-4">
+    <div className="flex h-full flex-col pr-6 pb-4">
+      {/* Header Section - Fixed at top */}
+      <div className="border-border mb-4 border-b pb-4">
         <div className="mb-3 flex items-center gap-3">
           <div className="bg-primary/10 flex size-10 shrink-0 items-center justify-center rounded-lg">
             <Play className="text-primary size-4" />
@@ -70,7 +71,8 @@ const CourseSidebar = ({ course }: CourseSidebar) => {
         </div>
       </div>
 
-      <div className="space-y-3 py-4 pr-4">
+      {/* Scrollable Chapters Section */}
+      <div className="flex-1 space-y-3 overflow-y-auto">
         {chapter.map((chapter, index) => {
           const chapterCompleted = isChapterCompleted(chapter.lessons);
 

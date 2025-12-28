@@ -1,7 +1,10 @@
 "use server";
 
 import { requireAdmin } from "@/app/data/admin/require-admin";
-import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
+import {
+  ajProtection,
+  handleArcjetDecisionAction,
+} from "@/hooks/aj-protection";
 import { prisma } from "@/lib/db";
 import { lessonSchema, LessonSchemaType } from "@/lib/schemas";
 import { ApiResponse } from "@/lib/types";
@@ -23,7 +26,7 @@ export async function editLesson(
     const decision = await aj.protect(req, {
       fingerprint: session?.user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     const result = lessonSchema.safeParse(values);

@@ -22,7 +22,7 @@ const RenderDescription = ({ json }: { json: JSONContent }) => {
   }, [json]);
 
   return (
-    <div className="prose dark:prose-invert prose-li:marker:text-primary">
+    <div className="prose dark:prose-invert prose-li:marker:text-primary text-sm md:text-lg">
       {parse(output)}
     </div>
   );

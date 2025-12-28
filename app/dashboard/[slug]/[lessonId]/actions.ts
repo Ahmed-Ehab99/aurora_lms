@@ -1,7 +1,10 @@
 "use server";
 
 import { requireUser } from "@/app/data/user/require-user";
-import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
+import {
+  ajProtection,
+  handleArcjetDecisionAction,
+} from "@/hooks/aj-protection";
 import { prisma } from "@/lib/db";
 import { ApiResponse } from "@/lib/types";
 import { request } from "@arcjet/next";
@@ -23,7 +26,7 @@ export const markLessonComplete = async (
     const decision = await aj.protect(req, {
       fingerprint: user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     await prisma.lessonProgress.upsert({

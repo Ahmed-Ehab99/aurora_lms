@@ -1,5 +1,5 @@
 import { requireAdmin } from "@/app/data/admin/require-admin";
-import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
+import { ajProtection, handleArcjetDecisionRoute } from "@/hooks/aj-protection";
 import { env } from "@/lib/env";
 import { S3 } from "@/lib/s3-client";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
@@ -17,7 +17,7 @@ export async function DELETE(request: Request) {
     const decision = await aj.protect(request, {
       fingerprint: session?.user.id as string,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionRoute(decision);
     if (denialResponse) return denialResponse;
 
     const body = await request.json();

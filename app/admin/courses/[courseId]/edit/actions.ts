@@ -1,7 +1,10 @@
 "use server";
 
 import { requireAdmin } from "@/app/data/admin/require-admin";
-import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
+import {
+  ajProtection,
+  handleArcjetDecisionAction,
+} from "@/hooks/aj-protection";
 import { prisma } from "@/lib/db";
 import {
   chapterSchema,
@@ -30,7 +33,7 @@ export async function editCourse(
     const decision = await aj.protect(req, {
       fingerprint: session?.user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     const result = courseSchema.safeParse(data);
@@ -75,7 +78,7 @@ export async function editChapter(
     const decision = await aj.protect(req, {
       fingerprint: session?.user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     const result = chapterSchema.safeParse(values);
@@ -210,7 +213,7 @@ export async function createChapter(
     const decision = await aj.protect(req, {
       fingerprint: session?.user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     const result = chapterSchema.safeParse(values);
@@ -271,7 +274,7 @@ export async function createLesson(
     const decision = await aj.protect(req, {
       fingerprint: session?.user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     const result = lessonSchema.safeParse(values);
@@ -339,7 +342,7 @@ export async function deleteChapter({
     const decision = await aj.protect(req, {
       fingerprint: session?.user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     // Get course with its chapters
@@ -436,7 +439,7 @@ export async function deleteLesson({
     const decision = await aj.protect(req, {
       fingerprint: session?.user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     // Get chapter with its lessons

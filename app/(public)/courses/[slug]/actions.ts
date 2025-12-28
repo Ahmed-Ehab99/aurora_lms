@@ -1,7 +1,10 @@
 "use server";
 
 import { requireUser } from "@/app/data/user/require-user";
-import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
+import {
+  ajProtection,
+  handleArcjetDecisionAction,
+} from "@/hooks/aj-protection";
 import { prisma } from "@/lib/db";
 import { env } from "@/lib/env";
 import { stripe } from "@/lib/stripe";
@@ -26,7 +29,7 @@ export const enrollmentInCourse = async (
     const decision = await aj.protect(req, {
       fingerprint: user.id,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionAction(decision);
     if (denialResponse) return denialResponse;
 
     // Get individual course

@@ -1,5 +1,5 @@
 import { requireAdmin } from "@/app/data/admin/require-admin";
-import { ajProtection, handleArcjetDecision } from "@/hooks/aj-protection";
+import { ajProtection, handleArcjetDecisionRoute } from "@/hooks/aj-protection";
 import { env } from "@/lib/env";
 import { S3 } from "@/lib/s3-client";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 
-export const fileUploadSchema = z.object({
+const fileUploadSchema = z.object({
   fileName: z.string().min(1, { message: "Filename is required" }),
   contentType: z.string().min(1, { message: "Content type is required" }),
   size: z.number().min(1, { message: "Size is required" }),
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     const decision = await aj.protect(request, {
       fingerprint: session?.user.id as string,
     });
-    const denialResponse = handleArcjetDecision(decision);
+    const denialResponse = handleArcjetDecisionRoute(decision);
     if (denialResponse) return denialResponse;
 
     const body = await request.json();

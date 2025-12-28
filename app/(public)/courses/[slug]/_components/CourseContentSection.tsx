@@ -20,11 +20,11 @@ const CourseContentSection = ({ chapters }: CourseContentSectionProps) => {
 
   return (
     <div className="mt-12 space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-semibold tracking-tight">
+      <div className="flex flex-col justify-between gap-2 md:flex-row md:items-center md:gap-0">
+        <h2 className="text-2xl font-semibold tracking-tight md:text-4xl">
           Course Content
         </h2>
-        <span>
+        <span className="text-sm md:text-lg">
           {chapters.length} Chapter{chapters.length !== 1 ? "s" : ""} |{" "}
           {lessonsLength} Lesson{lessonsLength !== 1 ? "s" : ""}
         </span>

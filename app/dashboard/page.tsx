@@ -2,6 +2,7 @@ import CourseCard, {
   CourseCardSkeleton,
 } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
+import { Metadata } from "next";
 import { Suspense } from "react";
 import { userGetCourses } from "../data/user/user-get-courses";
 import {
@@ -12,7 +13,11 @@ import CourseProgressCard, {
   CourseProgressCardSkeleton,
 } from "./_components/CourseProgressCard";
 
-export default async function DashboardPage() {
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
+
+export default function DashboardPage() {
   return (
     <>
       <section className="space-y-6">

@@ -22,7 +22,7 @@ const CourseDetails = ({ course }: { course: UserCourseSingularType }) => {
     chapter.reduce((total, chapter) => total + chapter.lessons.length, 0) || 0;
 
   return (
-    <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <div className="my-8 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3">
       {/* Main Content */}
       <div className="order-1 lg:col-span-2">
         <CourseHeroSection

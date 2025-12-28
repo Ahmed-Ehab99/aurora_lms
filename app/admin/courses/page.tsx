@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Suspense } from "react";
 import CoursesList from "./_components/CoursesList";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin Courses",
+};
 
 const AdminCoursesPage = () => {
   return (

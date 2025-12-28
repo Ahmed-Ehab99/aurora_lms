@@ -13,6 +13,7 @@ const CourseThumbnail = ({ thumbnailUrl, alt }: CourseThumbnailProps) => {
       width={600}
       height={400}
       className="aspect-video h-full w-full rounded-t-xl object-cover"
+      loading="eager"
     />
   );
 };
