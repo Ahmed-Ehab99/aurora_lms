@@ -1,5 +1,5 @@
 import { userGetCourseSidebar } from "@/app/data/user/user-get-course-sidebar";
-import CourseSidebar from "./_components/CourseSidebar";
+import CourseNavigation from "./_components/CourseNavigation";
 
 type Params = Promise<{ slug: string }>;
 
@@ -15,10 +15,8 @@ export default async function CourseLayout({
 
   return (
     <div className="flex flex-1">
-      {/* Sidebar 30% */}
-      <div className="border-border sticky top-6 h-screen w-80 shrink-0 overflow-y-auto border-r">
-        <CourseSidebar course={course.course} />
-      </div>
+      {/* Responsive Navigation - Sidebar on desktop, Drawer on mobile */}
+      <CourseNavigation course={course.course} />
 
       {/* Main content 70% */}
       <div className="flex-1 overflow-hidden">{children}</div>

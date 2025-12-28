@@ -37,7 +37,7 @@ const CourseSidebar = ({ course }: CourseSidebar) => {
 
   return (
     <div className="flex h-full flex-col pr-6 pb-4">
-      {/* Header Section - Fixed at top */}
+      {/* Header Section*/}
       <div className="border-border mb-4 border-b pb-4">
         <div className="mb-3 flex items-center gap-3">
           <div className="bg-primary/10 flex size-10 shrink-0 items-center justify-center rounded-lg">
@@ -71,7 +71,7 @@ const CourseSidebar = ({ course }: CourseSidebar) => {
         </div>
       </div>
 
-      {/* Scrollable Chapters Section */}
+      {/* Chapters Section */}
       <div className="flex-1 space-y-3 overflow-y-auto">
         {chapter.map((chapter, index) => {
           const chapterCompleted = isChapterCompleted(chapter.lessons);
