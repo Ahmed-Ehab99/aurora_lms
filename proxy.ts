@@ -45,6 +45,15 @@ export default createMiddleware(aj, async (request: NextRequest) => {
     return NextResponse.next();
   }
 
+  // User Dashboard routes protection
+  if (pathname.startsWith("/dashboard")) {
+    if (!session) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    return NextResponse.next();
+  }
+
   return NextResponse.next();
 });
 
