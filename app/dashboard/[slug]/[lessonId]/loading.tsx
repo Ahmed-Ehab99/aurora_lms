@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const LessonDetailsSkeleton = () => {
   return (
-    <div className="flex h-full flex-col pl-6">
+    <div className="flex h-full flex-col lg:pl-6">
       <Skeleton className="aspect-video overflow-hidden rounded-lg" />
       <div className="border-b py-4">
         <Skeleton className="h-9 w-43" />

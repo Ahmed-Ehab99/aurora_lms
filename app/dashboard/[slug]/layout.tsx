@@ -19,7 +19,7 @@ export default async function CourseLayout({
       <CourseNavigation course={course.course} />
 
       {/* Main content 70% */}
-      <div className="flex-1 overflow-hidden">{children}</div>
+      <div className="flex-1">{children}</div>
     </div>
   );
 }

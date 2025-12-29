@@ -50,10 +50,10 @@ const CourseDrawer = ({ course }: CourseDrawerProps) => {
       <DrawerTrigger asChild>
         <Button
           size="icon"
-          className="fixed right-4 bottom-4 z-50 size-14 rounded-full shadow-lg md:hidden"
+          className="fixed right-4 bottom-4 z-50 size-10 rounded-full shadow-lg md:hidden"
           aria-label="Open course menu"
         >
-          <Menu className="size-6" />
+          <Menu className="size-4" />
         </Button>
       </DrawerTrigger>
 

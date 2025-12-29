@@ -40,11 +40,13 @@ const LessonContent = ({ lesson }: LessonContentProps) => {
   }
 
   return (
-    <div className="bg-background flex h-full flex-col pl-6">
-      <VideoPlayer
-        thumbnailKey={lesson.thumbnailKey ?? ""}
-        videoKey={lesson.videoKey ?? ""}
-      />
+    <div className="bg-background flex h-full flex-col lg:pl-6">
+      <div className="bg-background sticky top-4 z-50 md:top-6 md:static">
+        <VideoPlayer
+          thumbnailKey={lesson.thumbnailKey ?? ""}
+          videoKey={lesson.videoKey ?? ""}
+        />
+      </div>
 
       <div className="border-b py-4">
         <Button
@@ -108,7 +110,7 @@ const VideoPlayer = ({
   }
 
   return (
-    <div className="relative aspect-video overflow-hidden rounded-lg bg-black">
+    <div className="aspect-video overflow-hidden rounded-lg bg-black">
       <video className="size-full object-cover" controls poster={thumbnailUrl}>
         <source src={videoUrl} type="video/mp4" />
         <source src={videoUrl} type="video/webm" />

@@ -9,10 +9,10 @@ interface CourseNavigationProps {
 const CourseNavigation = ({ course }: CourseNavigationProps) => {
   return (
     <>
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <CourseDrawer course={course} />
       </div>
-      <aside className="border-border hidden min-h-screen w-80 shrink-0 border-r md:block">
+      <aside className="border-border hidden min-h-screen w-80 shrink-0 border-r lg:block">
         <CourseSidebar course={course} />
       </aside>
     </>
