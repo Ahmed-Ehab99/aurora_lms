@@ -20,7 +20,9 @@ const aj = arcjet({
 
 export default createMiddleware(aj, async (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;
-  const sessionCookie = request.cookies.get("better-auth.session_token");
+  const sessionCookie = request.cookies.get(
+    "__Secure-better-auth.session_token",
+  );
 
   // Fast check: No session cookie = no access
   if (pathname.startsWith("/admin") || pathname.startsWith("/dashboard")) {
