@@ -1,6 +1,5 @@
 import arcjet, { createMiddleware, detectBot } from "@arcjet/next";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "./lib/auth";
 import { env } from "./lib/env";
 
 const aj = arcjet({
@@ -21,37 +20,20 @@ const aj = arcjet({
 
 export default createMiddleware(aj, async (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;
+  const sessionCookie = request.cookies.get("better-auth.session_token");
 
-  // Get session once
-  const session = await auth.api.getSession({
-    headers: request.headers,
-  });
+  // Fast check: No session cookie = no access
+  if (pathname.startsWith("/admin") || pathname.startsWith("/dashboard")) {
+    if (!sessionCookie) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+    // Role check happens in server components/actions
+    return NextResponse.next();
+  }
 
-  // If user is logged in and tries to access /login
-  if (pathname === "/login" && session) {
+  // Redirect logged-in users away from login
+  if (pathname === "/login" && sessionCookie) {
     return NextResponse.redirect(new URL("/", request.url));
-  }
-
-  // Admin routes protection
-  if (pathname.startsWith("/admin")) {
-    if (!session) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-
-    if (session.user.role !== "Admin") {
-      return NextResponse.redirect(new URL("/not-admin", request.url));
-    }
-
-    return NextResponse.next();
-  }
-
-  // User Dashboard routes protection
-  if (pathname.startsWith("/dashboard")) {
-    if (!session) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-
-    return NextResponse.next();
   }
 
   return NextResponse.next();
