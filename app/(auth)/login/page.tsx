@@ -11,7 +11,7 @@ import SigninGithubBtn from "./_components/SigninGithubBtn";
 import SigninGoogleBtn from "./_components/SigninGoogleBtn";
 
 export const metadata: Metadata = {
-  title: "Sign in/up",
+  title: "LogIn",
 };
 
 const LoginPage = () => {

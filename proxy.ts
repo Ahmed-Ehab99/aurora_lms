@@ -39,7 +39,7 @@ export default createMiddleware(aj, async (request: NextRequest) => {
     }
 
     if (session.user.role !== "Admin") {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/not-admin", request.url));
     }
 
     return NextResponse.next();
