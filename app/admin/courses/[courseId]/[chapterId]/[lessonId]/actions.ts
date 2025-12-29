@@ -38,6 +38,13 @@ export async function editLesson(
       };
     }
 
+    if (result.data.videoKey && !result.data.videoKey.endsWith(".mp4")) {
+      return {
+        status: "error",
+        message: "Only MP4 videos are allowed",
+      };
+    }
+
     await prisma.lesson.update({
       where: {
         id: lessonId,

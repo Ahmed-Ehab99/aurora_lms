@@ -253,7 +253,7 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: UploaderProps) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept:
-      fileTypeAccepted === "video" ? { "video/*": [] } : { "image/*": [] },
+      fileTypeAccepted === "video" ? { "video/mp4": [] } : { "image/*": [] },
     maxFiles: 1,
     multiple: false,
     maxSize: fileTypeAccepted === "image" ? IMAGE_MAX_SIZE : VIDEO_MAX_SIZE,

@@ -93,20 +93,20 @@ export function ChartBarInteractive({
           </ToggleGroup>
           <Select value={currentRange} onValueChange={onRangeChange}>
             <SelectTrigger
-              className="flex hover:text-accent-foreground cursor-pointer text-muted-foreground font-medium w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate lg:hidden"
+              className="hover:text-accent-foreground text-muted-foreground flex w-36 cursor-pointer font-medium **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate lg:hidden"
               size="sm"
               aria-label="Select a value"
             >
               <SelectValue placeholder="Last 3 months" />
             </SelectTrigger>
-            <SelectContent className="rounded-xl text-muted-foreground font-medium">
-              <SelectItem value="90d" className="rounded-lg cursor-pointer">
+            <SelectContent className="text-muted-foreground rounded-xl font-medium">
+              <SelectItem value="90d" className="cursor-pointer rounded-lg">
                 Last 3 months
               </SelectItem>
-              <SelectItem value="30d" className="rounded-lg cursor-pointer">
+              <SelectItem value="30d" className="cursor-pointer rounded-lg">
                 Last 30 days
               </SelectItem>
-              <SelectItem value="7d" className="rounded-lg cursor-pointer">
+              <SelectItem value="7d" className="cursor-pointer rounded-lg">
                 Last 7 days
               </SelectItem>
             </SelectContent>

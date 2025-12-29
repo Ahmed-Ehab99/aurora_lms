@@ -7,8 +7,9 @@ import { confettiStars } from "@/components/ui/confetti";
 import { tryCatch } from "@/hooks/try-catch";
 import { useConstructUrl } from "@/hooks/use-construct-url";
 import { cn } from "@/lib/utils";
-import { Book, CheckCircle, Loader } from "lucide-react";
-import { useTransition } from "react";
+import { Book, CheckCircle, Loader, Play } from "lucide-react";
+import Image from "next/image";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { markLessonComplete } from "../actions";
 
@@ -41,7 +42,7 @@ const LessonContent = ({ lesson }: LessonContentProps) => {
 
   return (
     <div className="bg-background flex h-full flex-col lg:pl-6">
-      <div className="bg-background sticky top-4 z-50 md:top-6 md:static">
+      <div className="bg-background sticky top-4 z-50 md:static md:top-6">
         <VideoPlayer
           thumbnailKey={lesson.thumbnailKey ?? ""}
           videoKey={lesson.videoKey ?? ""}
@@ -95,6 +96,8 @@ const VideoPlayer = ({
   thumbnailKey: string;
   videoKey: string;
 }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const videoUrl = useConstructUrl(videoKey);
   const thumbnailUrl = useConstructUrl(thumbnailKey);
 
@@ -110,13 +113,41 @@ const VideoPlayer = ({
   }
 
   return (
-    <div className="aspect-video overflow-hidden rounded-lg bg-black">
-      <video className="size-full object-cover" controls poster={thumbnailUrl}>
-        <source src={videoUrl} type="video/mp4" />
-        <source src={videoUrl} type="video/webm" />
-        <source src={videoUrl} type="video/ogg" />
-        Your browser doesn&apos;t support the vedio tag.
-      </video>
+    <div className="relative aspect-video overflow-hidden rounded-lg bg-black">
+      {!isPlaying ? (
+        <button
+          type="button"
+          onClick={() => setIsPlaying(true)}
+          className="relative size-full"
+        >
+          {/* Poster as LCP element */}
+          <Image
+            src={thumbnailUrl}
+            alt="Lesson video"
+            className="size-full object-cover"
+            loading="eager"
+            width={500}
+            height={400}
+            fetchPriority="high"
+          />
+
+          {/* Play overlay */}
+          <div className="absolute inset-0 grid place-items-center bg-black/30">
+            <div className="bg-primary cursor-pointer rounded-full p-3 md:p-4">
+              <Play className="size-4 text-white" />
+            </div>
+          </div>
+        </button>
+      ) : (
+        <video
+          className="size-full object-cover"
+          controls
+          autoPlay
+          preload="metadata"
+        >
+          <source src={videoUrl} type="video/mp4" />
+        </video>
+      )}
     </div>
   );
 };
