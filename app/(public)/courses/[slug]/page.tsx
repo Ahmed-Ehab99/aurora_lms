@@ -3,6 +3,8 @@ import { prisma } from "@/lib/db";
 import { Metadata } from "next";
 import CourseDetails from "./_components/CourseDetails";
 
+export const revalidate = 3600; // Revalidate every hour
+
 type Params = Promise<{ slug: string }>;
 
 export async function generateMetadata({
@@ -25,11 +27,9 @@ export async function generateStaticParams() {
     },
   });
 
-  return courses
-    .filter((course) => Boolean(course.slug))
-    .map((course) => ({
-      slug: course.slug!,
-    }));
+  return courses.map((course) => ({
+    slug: course.slug,
+  }));
 }
 
 const PublicCoursePage = async ({ params }: { params: Params }) => {

@@ -49,7 +49,6 @@ const OtpInput = () => {
           onChange={(value) => setOtp(value)}
           disabled={otpPending}
           aria-busy={otpPending}
-          aria-disabled={otpPending}
         >
           <InputOTPGroup>
             <InputOTPSlot index={0} />
@@ -72,16 +71,15 @@ const OtpInput = () => {
         disabled={otpPending || !isOtpCompleted}
         onClick={verifyOtp}
         className="w-full"
-        aria-disabled={otpPending || !isOtpCompleted}
       >
         {otpPending ? (
           <>
-            <Loader className="size-4 animate-spin" />
+            <Loader size={16} aria-hidden={true} className="animate-spin" />
             <span>Verifing...</span>
           </>
         ) : (
           <>
-            <Shield className="size-4" />
+            <Shield size={16} aria-hidden={true} />
             <span>Verify Account</span>
           </>
         )}

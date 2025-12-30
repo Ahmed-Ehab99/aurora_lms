@@ -38,10 +38,10 @@ const SuccessPaymentPage = () => {
           className="fade-in-up flex flex-col items-center space-y-4"
           style={{ animationDelay: "0.3s" }}
         >
-          <h1 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
+          <h1 className="text-foreground text-3xl font-bold tracking-tight md:text-5xl lg:text-6xl">
             Payment Successful! 🎉
           </h1>
-          <p className="text-muted-foreground max-w-md text-lg md:text-xl">
+          <p className="text-muted-foreground max-w-md text-base md:text-xl">
             Congratulations! You&apos;re now enrolled. Get ready to start your
             learning journey!
           </p>
@@ -49,7 +49,7 @@ const SuccessPaymentPage = () => {
 
         {/* Action buttons */}
         <div
-          className="fade-in-up flex flex-col gap-4 pt-4 sm:flex-row"
+          className="fade-in-up flex flex-row gap-4 pt-4 max-[375px]:flex-col"
           style={{ animationDelay: "0.5s" }}
         >
           <Button asChild size="lg" className="group relative overflow-hidden">

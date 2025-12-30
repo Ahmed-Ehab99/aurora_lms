@@ -74,7 +74,7 @@ const CourseEnrollmentCard = async ({
               {courseBenefits.map(({ icon: Icon, label, value }) => (
                 <li key={label} className="flex items-center gap-3">
                   <div className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded-full">
-                    <Icon className="size-4" />
+                    <Icon size={16} />
                   </div>
 
                   <div>
@@ -92,7 +92,7 @@ const CourseEnrollmentCard = async ({
               {courseIncludes.map((item) => (
                 <li key={item} className="flex items-center gap-2 text-sm">
                   <div className="rounded-full bg-green-500/10 p-1 text-green-500">
-                    <Check className="size-4" />
+                    <Check size={16} />
                   </div>
                   <span>{item}</span>
                 </li>

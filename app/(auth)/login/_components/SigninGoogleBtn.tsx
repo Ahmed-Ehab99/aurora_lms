@@ -38,7 +38,7 @@ const SigninGoogleBtn = () => {
     >
       {googlePending ? (
         <>
-          <Loader className="size-4 animate-spin" />
+          <Loader size={16} aria-hidden={true} className="animate-spin" />
           <span>Signing In...</span>
         </>
       ) : (
@@ -46,9 +46,10 @@ const SigninGoogleBtn = () => {
           <Image
             src={GoogleLogo}
             alt="Google Logo"
-            width={18}
-            height={18}
+            width={16}
+            height={16}
             className="dark:invert"
+            aria-hidden={true}
           />
           <span>Sign in with Google</span>
         </>

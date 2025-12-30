@@ -54,15 +54,15 @@ const CourseHeroSection = ({
 
         <div className="flex flex-wrap gap-3">
           <Badge className="flex items-center gap-1.5 px-3 py-1">
-            <ChartBar className="size-4" />
+            <ChartBar size={16} />
             <span>{level}</span>
           </Badge>
           <Badge className="flex items-center gap-1.5 px-3 py-1">
-            <LayoutGrid className="size-4" />
+            <LayoutGrid size={16} />
             <span>{category}</span>
           </Badge>
           <Badge className="flex items-center gap-1.5 px-3 py-1">
-            <Clock className="size-4" />
+            <Clock size={16} />
             <span>{duration} hours</span>
           </Badge>
         </div>

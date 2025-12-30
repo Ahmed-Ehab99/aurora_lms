@@ -38,7 +38,7 @@ const SigninGithubBtn = () => {
     >
       {githubPending ? (
         <>
-          <Loader className="size-4 animate-spin" />
+          <Loader size={16} aria-hidden={true} className="animate-spin" />
           <span>Signing In...</span>
         </>
       ) : (
@@ -46,9 +46,10 @@ const SigninGithubBtn = () => {
           <Image
             src={GithubLogo}
             alt="Github Logo"
-            width={18}
-            height={18}
+            width={16}
+            height={16}
             className="dark:invert"
+            aria-hidden={true}
           />
           <span>Sign in with Github</span>
         </>

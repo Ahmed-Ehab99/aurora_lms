@@ -1,4 +1,5 @@
 import arcjet, { createMiddleware, detectBot } from "@arcjet/next";
+import { getSessionCookie } from "better-auth/cookies";
 import { NextRequest, NextResponse } from "next/server";
 import { env } from "./lib/env";
 
@@ -20,9 +21,7 @@ const aj = arcjet({
 
 export default createMiddleware(aj, async (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;
-  const sessionCookie = request.cookies.get(
-    "__Secure-better-auth.session_token",
-  );
+  const sessionCookie = getSessionCookie(request);
 
   // Fast check: No session cookie = no access
   if (pathname.startsWith("/admin") || pathname.startsWith("/dashboard")) {

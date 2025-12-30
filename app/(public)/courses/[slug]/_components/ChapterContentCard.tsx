@@ -47,7 +47,7 @@ const ChapterContentCard = ({ chapter, index }: ChapterContentCardProps) => {
                   {chapter.lessons.length} Lesson
                   {chapter.lessons.length !== 1 ? "s" : ""}
                 </Badge>
-                <ChevronDown className="text-muted-foreground size-4" />
+                <ChevronDown size={16} className="text-muted-foreground" />
               </div>
             </div>
           </CardContent>
@@ -63,7 +63,7 @@ const ChapterContentCard = ({ chapter, index }: ChapterContentCardProps) => {
                 className="hover:bg-accent flex items-center gap-4 rounded-b-xl p-3 transition-colors"
               >
                 <div className="bg-background border-primary/20 flex size-8 items-center justify-center rounded-full border-2">
-                  <Play className="text-muted-foreground group-hover:text-primary size-4 transition-colors" />
+                  <Play size={16} className="text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
 
                 <div className="flex-1">

@@ -49,12 +49,12 @@ const SigninEmail = () => {
       <Button onClick={signinWithEmail} disabled={emailPending}>
         {emailPending ? (
           <>
-            <Loader className="size-4 animate-spin" />
+            <Loader size={16} aria-hidden={true} className="animate-spin" />
             <span>Continuing...</span>
           </>
         ) : (
           <>
-            <Send className="size-4" />
+            <Send size={16} aria-hidden={true} />
             <span>Continue with Email</span>
           </>
         )}

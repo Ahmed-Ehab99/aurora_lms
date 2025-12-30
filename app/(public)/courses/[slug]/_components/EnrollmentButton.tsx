@@ -33,16 +33,17 @@ const EnrollmentButton = ({ courseId }: { courseId: string }) => {
       }
     });
   }
+
   return (
     <Button onClick={onSubmit} disabled={isPending} className="w-full">
       {isPending ? (
         <>
-          <Loader className="size-4 animate-spin" />
+          <Loader size={16} className="animate-spin" />
           <span>Enrolling...</span>
         </>
       ) : (
         <>
-          <BookOpen className="size-4" />
+          <BookOpen size={16} />
           <span>Enroll Now!</span>
         </>
       )}

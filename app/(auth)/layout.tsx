@@ -13,7 +13,7 @@ export default function AuthLayout({
     <div className="relative flex min-h-svh flex-col items-center justify-center">
       <Button asChild variant="outline" className="absolute top-4 left-4">
         <Link href="/">
-          <ArrowLeft className="size-4" />
+          <ArrowLeft size={16} aria-hidden={true} />
           Back
         </Link>
       </Button>

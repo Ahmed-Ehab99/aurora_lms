@@ -1,4 +1,4 @@
-import AdminCardMenu from "@/app/admin/courses/_components/AdminCardMenu";
+import AdminCardMenu from "@/app/(require-user)/admin/courses/_components/AdminCardMenu";
 import { AdminCourseType } from "@/app/data/admin/admin-get-courses";
 import { UserCourseType } from "@/app/data/user/user-get-courses";
 import { useConstructUrl } from "@/hooks/use-construct-url";
@@ -93,17 +93,26 @@ const CourseCard = ({ course, isInAdmin, onDelete }: CourseCardProps) => {
 
         <div className="flex flex-wrap justify-between gap-y-5">
           <div className="flex items-center gap-x-2">
-            <DollarSign className="text-primary bg-primary/10 size-6 rounded-md p-1" />
+            <DollarSign
+              size={24}
+              className="text-primary bg-primary/10 rounded-md p-1"
+            />
             <p className="text-sm text-white">${price}</p>
           </div>
 
           <div className="flex items-center gap-x-2">
-            <Timer className="text-primary bg-primary/10 size-6 rounded-md p-1" />
+            <Timer
+              size={24}
+              className="text-primary bg-primary/10 rounded-md p-1"
+            />
             <p className="text-muted-foreground text-sm">{duration}h</p>
           </div>
 
           <div className="flex items-center gap-x-2">
-            <School className="text-primary bg-primary/10 size-6 rounded-md p-1" />
+            <School
+              size={24}
+              className="text-primary bg-primary/10 rounded-md p-1"
+            />
             <p className="text-muted-foreground text-sm">{level}</p>
           </div>
         </div>
@@ -111,7 +120,7 @@ const CourseCard = ({ course, isInAdmin, onDelete }: CourseCardProps) => {
         <Button asChild className="w-full">
           {isInAdmin ? (
             <Link href={`/admin/courses/${id}/edit`}>
-              Edit Course <ArrowRight className="size-4" />
+              Edit Course <ArrowRight size={16} />
             </Link>
           ) : (
             <Link href={`/courses/${slug}`}>Explore Course</Link>
