@@ -1,16 +1,37 @@
 import { prisma } from "@/lib/db";
 import { cache } from "react";
 import "server-only";
+import { requireUser } from "./require-user";
 
 const ITEMS_PER_PAGE = 9;
 
-export const userGetCourses = cache(async (page: number = 1) => {
+export const userGetAvailableCourses = cache(async (page: number = 1) => {
+  const user = await requireUser();
+
+  // Get enrolled course IDs
+  const enrollments = await prisma.enrollment.findMany({
+    where: {
+      userId: user.id,
+      status: "Active",
+    },
+    select: {
+      courseId: true,
+    },
+  });
+
+  const enrolledCourseIds = enrollments.map((e) => e.courseId);
+
+  // Calculate pagination
   const skip = (page - 1) * ITEMS_PER_PAGE;
 
+  // Fetch courses NOT enrolled - filtered in the query
   const [data, totalCount] = await Promise.all([
     prisma.course.findMany({
       where: {
         status: "Published",
+        id: {
+          notIn: enrolledCourseIds, // Filter at database level
+        },
       },
       select: {
         id: true,
@@ -33,6 +54,9 @@ export const userGetCourses = cache(async (page: number = 1) => {
     prisma.course.count({
       where: {
         status: "Published",
+        id: {
+          notIn: enrolledCourseIds, // Count only available courses
+        },
       },
     }),
   ]);
@@ -48,6 +72,6 @@ export const userGetCourses = cache(async (page: number = 1) => {
 });
 
 // Dynamic type
-export type UserCourseType = Awaited<
-  ReturnType<typeof userGetCourses>
+export type UserAvailableCourseType = Awaited<
+  ReturnType<typeof userGetAvailableCourses>
 >["courses"][0];

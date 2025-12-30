@@ -3,6 +3,7 @@ import CourseCard, {
   CourseCardSkeleton,
 } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
+import { PaginationWrapper } from "@/components/globals/PaginationWrapper";
 import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -11,7 +12,16 @@ export const metadata: Metadata = {
   title: "Courses",
 };
 
-const PublicCoursesPage = () => {
+type SearchParams = Promise<{ page?: string }>;
+
+interface PublicCoursesPageProps {
+  searchParams: SearchParams;
+}
+
+const PublicCoursesPage = async ({ searchParams }: PublicCoursesPageProps) => {
+  const params = await searchParams;
+  const currentPage = Number(params.page) || 1;
+
   return (
     <div className="my-10">
       <div className="mb-10 flex flex-col space-y-2">
@@ -32,7 +42,7 @@ const PublicCoursesPage = () => {
           />
         }
       >
-        <RenderPublicCourses />
+        <RenderPublicCourses page={currentPage} />
       </Suspense>
     </div>
   );
@@ -40,8 +50,8 @@ const PublicCoursesPage = () => {
 
 export default PublicCoursesPage;
 
-const RenderPublicCourses = async () => {
-  const courses = await userGetCourses();
+const RenderPublicCourses = async ({ page }: { page: number }) => {
+  const { courses, totalPages, currentPage } = await userGetCourses(page);
 
   if (courses.length === 0) {
     return (
@@ -56,10 +66,14 @@ const RenderPublicCourses = async () => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {courses.map((course) => (
-        <CourseCard key={course.id} course={course} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {courses.map((course) => (
+          <CourseCard key={course.id} course={course} />
+        ))}
+      </div>
+
+      <PaginationWrapper totalPages={totalPages} currentPage={currentPage} />
+    </>
   );
 };

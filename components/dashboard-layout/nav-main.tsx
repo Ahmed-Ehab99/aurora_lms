@@ -11,6 +11,7 @@ import {
   IconCertificate,
   IconCirclePlusFilled,
   IconDashboard,
+  IconHome,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -34,6 +35,11 @@ const adminNavItems = [
 ];
 
 const studentNavItems = [
+  {
+    title: "Home",
+    url: "/",
+    icon: IconHome,
+  },
   {
     title: "Dashboard",
     url: "/dashboard",

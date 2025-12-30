@@ -1,6 +1,7 @@
 import { adminGetCourses } from "@/app/data/admin/admin-get-courses";
 import { CourseCardSkeleton } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
+import { PaginationWrapper } from "@/components/globals/PaginationWrapper";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
@@ -12,7 +13,16 @@ export const metadata: Metadata = {
   title: "Admin Courses",
 };
 
-const AdminCoursesPage = () => {
+type SearchParams = Promise<{ page?: string }>;
+
+interface PublicCoursesPageProps {
+  searchParams: SearchParams;
+}
+
+const AdminCoursesPage = async ({ searchParams }: PublicCoursesPageProps) => {
+  const params = await searchParams;
+  const currentPage = Number(params.page) || 1;
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -30,7 +40,7 @@ const AdminCoursesPage = () => {
           />
         }
       >
-        <RenderAdminCourses />
+        <RenderAdminCourses page={currentPage} />
       </Suspense>
     </>
   );
@@ -38,13 +48,19 @@ const AdminCoursesPage = () => {
 
 export default AdminCoursesPage;
 
-const RenderAdminCourses = async () => {
-  const courses = await adminGetCourses();
+const RenderAdminCourses = async ({ page }: { page: number }) => {
+  const { courses, totalPages, currentPage } = await adminGetCourses(page);
 
   return (
     <>
       {courses && courses.length > 0 ? (
-        <CoursesList courses={courses} />
+        <div>
+          <CoursesList courses={courses} />
+          <PaginationWrapper
+            totalPages={totalPages}
+            currentPage={currentPage}
+          />
+        </div>
       ) : (
         <EmptyState
           title="No courses yet"

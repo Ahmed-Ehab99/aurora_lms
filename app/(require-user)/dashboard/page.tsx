@@ -1,15 +1,13 @@
+import { userGetAvailableCourses } from "@/app/data/user/user-get-available-courses";
 import CourseCard, {
   CourseCardSkeleton,
 } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
+import { PaginationWrapper } from "@/components/globals/PaginationWrapper";
 import { ShoppingBag } from "lucide-react";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { userGetCourses } from "../../data/user/user-get-courses";
-import {
-  userGetEnrolledCourseIds,
-  userGetEnrolledCourses,
-} from "../../data/user/user-get-enrolled-courses";
+import { userGetEnrolledCourses } from "../../data/user/user-get-enrolled-courses";
 import CourseProgressCard, {
   CourseProgressCardSkeleton,
 } from "./_components/CourseProgressCard";
@@ -18,7 +16,18 @@ export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-export default function DashboardPage() {
+type SearchParams = Promise<{ page?: string }>;
+
+interface PublicCoursesPageProps {
+  searchParams: SearchParams;
+}
+
+export default async function DashboardPage({
+  searchParams,
+}: PublicCoursesPageProps) {
+  const params = await searchParams;
+  const currentPage = Number(params.page) || 1;
+
   return (
     <>
       <section className="space-y-6">
@@ -57,7 +66,7 @@ export default function DashboardPage() {
             />
           }
         >
-          <AvailableCourses />
+          <AvailableCourses page={currentPage} />
         </Suspense>
       </section>
     </>
@@ -88,17 +97,11 @@ async function EnrolledCourses() {
   );
 }
 
-async function AvailableCourses() {
-  const [courses, enrolledCourseIds] = await Promise.all([
-    userGetCourses(),
-    userGetEnrolledCourseIds(),
-  ]);
+async function AvailableCourses({ page }: { page: number }) {
+  const { courses, totalPages, currentPage } =
+    await userGetAvailableCourses(page);
 
-  const remainingCourses = courses.filter(
-    (course) => !enrolledCourseIds.includes(course.id),
-  );
-
-  if (remainingCourses.length === 0) {
+  if (courses.length === 0) {
     return (
       <EmptyState
         title="No courses available"
@@ -111,10 +114,14 @@ async function AvailableCourses() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2 xl:grid-cols-3">
-      {remainingCourses.map((course) => (
-        <CourseCard key={course.id} course={course} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2 xl:grid-cols-3">
+        {courses.map((course) => (
+          <CourseCard key={course.id} course={course} />
+        ))}
+      </div>
+
+      <PaginationWrapper totalPages={totalPages} currentPage={currentPage} />
+    </>
   );
 }
