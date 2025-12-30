@@ -3,6 +3,7 @@ import CourseCard, {
   CourseCardSkeleton,
 } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
+import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -49,6 +50,7 @@ const RenderPublicCourses = async () => {
         description="There are no courses available right now."
         buttonText="Return Home"
         href="/"
+        icon={ArrowLeft}
       />
     );
   }
