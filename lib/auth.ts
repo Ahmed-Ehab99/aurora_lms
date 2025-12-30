@@ -8,23 +8,24 @@ import { env } from "./env";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
-const getAdminEmails = (): string[] => {
-  if (!env.ADMIN_EMAILS) return [];
+// Uncomment this to use admin emails to assign admin role
+// const getAdminEmails = (): string[] => {
+//   if (!env.ADMIN_EMAILS) return [];
 
-  // Trim whitespace and convert to lowercase
-  const trimmedEmails = env.ADMIN_EMAILS.trim();
+//   // Trim whitespace and convert to lowercase
+//   const trimmedEmails = env.ADMIN_EMAILS.trim();
 
-  // If no commas, it's a single email
-  if (!trimmedEmails.includes(",")) {
-    return [trimmedEmails.toLowerCase()];
-  }
+//   // If no commas, it's a single email
+//   if (!trimmedEmails.includes(",")) {
+//     return [trimmedEmails.toLowerCase()];
+//   }
 
-  // Multiple emails - split, trim, and lowercase each
-  return trimmedEmails
-    .split(",")
-    .map((email) => email.trim().toLowerCase())
-    .filter((email) => email.length > 0); // Remove empty strings
-};
+//   // Multiple emails - split, trim, and lowercase each
+//   return trimmedEmails
+//     .split(",")
+//     .map((email) => email.trim().toLowerCase())
+//     .filter((email) => email.length > 0); // Remove empty strings
+// };
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -44,24 +45,40 @@ export const auth = betterAuth({
       clientSecret: env.GITHUB_CLIENT_SECRET,
     },
   },
+  // Uncomment this to use admin emails to assign admin role
+  // databaseHooks: {
+  //   user: {
+  //     create: {
+  //       before: async (user) => {
+  //         const adminEmails = getAdminEmails();
+  //         const userEmail = user.email?.toLowerCase();
+
+  //         // If user email is in admin list, assign Admin role
+  //         if (userEmail && adminEmails.includes(userEmail)) {
+  //           return {
+  //             data: {
+  //               ...user,
+  //               role: Role.Admin,
+  //             },
+  //           };
+  //         }
+
+  //         return { data: user };
+  //       },
+  //     },
+  //   },
+  // },
   databaseHooks: {
     user: {
       create: {
         before: async (user) => {
-          const adminEmails = getAdminEmails();
-          const userEmail = user.email?.toLowerCase();
-
-          // If user email is in admin list, assign Admin role
-          if (userEmail && adminEmails.includes(userEmail)) {
-            return {
-              data: {
-                ...user,
-                role: Role.Admin,
-              },
-            };
-          }
-
-          return { data: user };
+          // Automatically assign Admin role to all new users
+          return {
+            data: {
+              ...user,
+              role: Role.Admin,
+            },
+          };
         },
       },
     },
