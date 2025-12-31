@@ -1,6 +1,6 @@
 import { userGetCourses } from "@/app/data/user/user-get-courses";
 import CourseCard, {
-  CourseCardSkeleton,
+  PaginatedCoursesList,
 } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
 import { PaginationWrapper } from "@/components/globals/PaginationWrapper";
@@ -36,7 +36,7 @@ const PublicCoursesPage = async ({ searchParams }: PublicCoursesPageProps) => {
 
       <Suspense
         fallback={
-          <CourseCardSkeleton
+          <PaginatedCoursesList
             count={3}
             className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
           />

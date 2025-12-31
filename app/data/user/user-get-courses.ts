@@ -2,7 +2,7 @@ import { prisma } from "@/lib/db";
 import { cache } from "react";
 import "server-only";
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 3;
 
 export const userGetCourses = cache(async (page: number = 1) => {
   const skip = (page - 1) * ITEMS_PER_PAGE;

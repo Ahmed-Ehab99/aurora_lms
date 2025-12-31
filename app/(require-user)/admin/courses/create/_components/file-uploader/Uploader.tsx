@@ -26,6 +26,7 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: UploaderProps) => {
     getInputProps,
     isDragActive,
     handleRemoveFile,
+    open
   } = useFileUploader({
     value,
     onChange,
@@ -43,7 +44,7 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: UploaderProps) => {
       );
     }
     if (fileState.error) {
-      return <RenderErrorState />;
+      return <RenderErrorState onRetry={open} />;
     }
     if (fileState.objectUrl) {
       return (

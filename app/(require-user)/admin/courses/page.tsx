@@ -1,5 +1,5 @@
 import { adminGetCourses } from "@/app/data/admin/admin-get-courses";
-import { CourseCardSkeleton } from "@/components/globals/CourseCard";
+import { PaginatedCoursesList } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
 import { PaginationWrapper } from "@/components/globals/PaginationWrapper";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,7 @@ const AdminCoursesPage = async ({ searchParams }: PublicCoursesPageProps) => {
 
       <Suspense
         fallback={
-          <CourseCardSkeleton
+          <PaginatedCoursesList
             count={3}
             className="grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
           />

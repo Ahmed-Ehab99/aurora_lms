@@ -131,6 +131,8 @@ const CourseCard = ({ course, isInAdmin, onDelete }: CourseCardProps) => {
   );
 };
 
+export default CourseCard;
+
 export const CourseCardSkeleton = ({
   className,
   count,
@@ -159,4 +161,36 @@ export const CourseCardSkeleton = ({
   );
 };
 
-export default CourseCard;
+export const PaginatedCoursesList = ({
+  className,
+  count,
+}: {
+  className: string;
+  count: number;
+}) => {
+  return (
+    <div>
+      <div className={className}>
+        {Array.from({ length: count }).map((_, index) => (
+          <Card key={index} className="relative gap-0 py-0">
+            <Skeleton className="aspect-video h-full w-full rounded-t-xl object-cover" />
+            <CardContent className="space-y-4 p-4">
+              <Skeleton className="h-7 w-full" />
+              <Skeleton className="h-9 w-full" />
+              <div className="flex flex-wrap justify-between gap-y-5">
+                <Skeleton className="h-6 w-20" />
+                <Skeleton className="h-6 w-20" />
+                <Skeleton className="h-6 w-28" />
+              </div>
+              <Skeleton className="h-9 w-full" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="mx-auto mt-8 flex w-full justify-center">
+        <Skeleton className="h-9 w-41 sm:w-65" />
+      </div>
+    </div>
+  );
+};

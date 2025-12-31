@@ -284,23 +284,17 @@ const MenuBar = ({ editor }: MenuBarProps) => {
     return (
       <div>
         <div className="border-input bg-card flex flex-wrap items-center gap-1 rounded-t-lg border p-2">
-          <div className="flex flex-wrap gap-1">
-            {Array.from({ length: 11 }).map((_, i) => (
-              <Skeleton key={i} className="size-8" />
-            ))}
-          </div>
+          {Array.from({ length: 11 }).map((_, i) => (
+            <Skeleton key={i} className="size-8" />
+          ))}
           <Divider />
-          <div className="flex flex-wrap gap-1">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="size-8" />
-            ))}
-          </div>
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Skeleton key={i} className="size-8" />
+          ))}
           <Divider />
-          <div className="flex flex-wrap gap-1">
-            {Array.from({ length: 2 }).map((_, i) => (
-              <Skeleton key={i} className="size-8" />
-            ))}
-          </div>
+          {Array.from({ length: 2 }).map((_, i) => (
+            <Skeleton key={i} className="size-8" />
+          ))}
         </div>
         <div className="min-h-80"></div>
       </div>
@@ -308,46 +302,40 @@ const MenuBar = ({ editor }: MenuBarProps) => {
   }
 
   return (
-    <div className="border-input bg-card flex flex-wrap items-center gap-1 rounded-t-lg border-b p-2">
-      <TooltipProvider>
-        <div className="flex flex-wrap gap-1">
-          {TOGGLE_ACTIONS.map((action, index) => (
-            <ToolbarToggle
-              key={index}
-              action={action}
-              editorState={editorState}
-              editor={editor}
-            />
-          ))}
-        </div>
+    <TooltipProvider>
+      <div className="border-input bg-card flex flex-wrap items-center gap-1 rounded-t-lg border-b p-2">
+        {TOGGLE_ACTIONS.map((action, index) => (
+          <ToolbarToggle
+            key={index}
+            action={action}
+            editorState={editorState}
+            editor={editor}
+          />
+        ))}
 
         <Divider />
 
-        <div className="flex flex-wrap gap-1">
-          {ALIGNMENT_ACTIONS.map((action, index) => (
-            <ToolbarToggle
-              key={index}
-              action={action}
-              editorState={editorState}
-              editor={editor}
-            />
-          ))}
-        </div>
+        {ALIGNMENT_ACTIONS.map((action, index) => (
+          <ToolbarToggle
+            key={index}
+            action={action}
+            editorState={editorState}
+            editor={editor}
+          />
+        ))}
 
         <Divider />
 
-        <div className="flex flex-wrap gap-1">
-          {HISTORY_ACTIONS.map((action, index) => (
-            <ToolbarButton
-              key={index}
-              action={action}
-              editorState={editorState}
-              editor={editor}
-            />
-          ))}
-        </div>
-      </TooltipProvider>
-    </div>
+        {HISTORY_ACTIONS.map((action, index) => (
+          <ToolbarButton
+            key={index}
+            action={action}
+            editorState={editorState}
+            editor={editor}
+          />
+        ))}
+      </div>
+    </TooltipProvider>
   );
 };
 

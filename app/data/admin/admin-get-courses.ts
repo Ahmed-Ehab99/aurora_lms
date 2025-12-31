@@ -3,7 +3,7 @@ import { cache } from "react";
 import "server-only";
 import { requireAdmin } from "./require-admin";
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 3;
 
 export const adminGetCourses = cache(async (page: number = 1) => {
   await requireAdmin();

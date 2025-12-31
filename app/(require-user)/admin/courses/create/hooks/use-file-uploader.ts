@@ -229,7 +229,7 @@ export function useFileUploader({
   }, [fileState.objectUrl]);
 
   // Configure dropzone
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     accept:
       fileTypeAccepted === "video" ? { "video/mp4": [] } : { "image/*": [] },
@@ -237,7 +237,9 @@ export function useFileUploader({
     multiple: false,
     maxSize: fileTypeAccepted === "image" ? IMAGE_MAX_SIZE : VIDEO_MAX_SIZE,
     onDropRejected,
-    disabled: fileState.uploading || !!fileState.objectUrl,
+    // Only disable if uploading OR if a successful upload exists (no error)
+    disabled:
+      fileState.uploading || (!!fileState.objectUrl && !fileState.error),
   });
 
   return {
@@ -246,5 +248,6 @@ export function useFileUploader({
     getInputProps,
     isDragActive,
     handleRemoveFile,
+    open,
   };
 }

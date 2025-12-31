@@ -29,7 +29,7 @@ export const RenderEmptyState = ({
   );
 };
 
-export const RenderErrorState = () => {
+export const RenderErrorState = ({ onRetry }: { onRetry: () => void }) => {
   return (
     <div className="text-center">
       <div className="bg-destructive/30 mx-auto mb-4 flex size-12 items-center justify-center rounded-full">
@@ -37,7 +37,14 @@ export const RenderErrorState = () => {
       </div>
       <p className="text-base font-semibold">Upload Failed</p>
       <p className="text-muted-foreground mt-1 text-xs">Something went wrong</p>
-      <Button type="button" className="mt-4">
+      <Button
+        type="button"
+        className="mt-4"
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent double-triggering if parent also has click handler
+          onRetry();
+        }}
+      >
         Retry File Selection
       </Button>
     </div>
@@ -72,7 +79,7 @@ export const RenderUploadedState = ({
         size="icon"
         onClick={handleRemoveFile}
         disabled={isDeleting}
-        className={cn("absolute top-4 right-4")}
+        className={cn("absolute -top-2 -right-2")}
       >
         {isDeleting ? (
           <Loader size={16} className="animate-spin" />

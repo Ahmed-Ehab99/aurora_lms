@@ -18,6 +18,11 @@ import { usePathname } from "next/navigation";
 
 const adminNavItems = [
   {
+    title: "Home",
+    url: "/",
+    icon: IconHome,
+  },
+  {
     title: "Dashboard",
     url: "/admin",
     icon: IconDashboard,

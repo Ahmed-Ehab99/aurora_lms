@@ -1,6 +1,6 @@
 import { userGetAvailableCourses } from "@/app/data/user/user-get-available-courses";
 import CourseCard, {
-  CourseCardSkeleton,
+  PaginatedCoursesList,
 } from "@/components/globals/CourseCard";
 import EmptyState from "@/components/globals/EmptyState";
 import { PaginationWrapper } from "@/components/globals/PaginationWrapper";
@@ -60,7 +60,7 @@ export default async function DashboardPage({
 
         <Suspense
           fallback={
-            <CourseCardSkeleton
+            <PaginatedCoursesList
               className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2 xl:grid-cols-3"
               count={3}
             />

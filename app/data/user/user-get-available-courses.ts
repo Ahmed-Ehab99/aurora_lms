@@ -3,7 +3,7 @@ import { cache } from "react";
 import "server-only";
 import { requireUser } from "./require-user";
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 3;
 
 export const userGetAvailableCourses = cache(async (page: number = 1) => {
   const user = await requireUser();
