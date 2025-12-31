@@ -6,6 +6,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import {
   IconCertificate,
@@ -58,6 +59,7 @@ export function NavMain({
   dashboardType: "admin" | "student";
 }) {
   const pathname = usePathname();
+  const { isMobile, setOpenMobile } = useSidebar();
   const navItems =
     dashboardType === "student" ? studentNavItems : adminNavItems;
 
@@ -76,7 +78,12 @@ export function NavMain({
                   className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:hover:bg-primary/90 data-[active=true]:hover:text-primary-foreground data-[active=true]:active:bg-primary/90 data-[active=true]:active:text-primary-foreground data-[active=true]:min-w-8 data-[active=true]:duration-200 data-[active=true]:ease-linear"
                   isActive={isActive}
                 >
-                  <Link href={item.url}>
+                  <Link
+                    href={item.url}
+                    onClick={() => {
+                      if (isMobile) setOpenMobile(false);
+                    }}
+                  >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </Link>
