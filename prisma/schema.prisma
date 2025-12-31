@@ -10,8 +10,8 @@ datasource db {
 /////////////////////////////////////////////////
 // Auth Models
 enum Role {
-  User
-  Admin
+  user
+  admin
 }
 
 model User {
@@ -20,7 +20,7 @@ model User {
   email            String
   emailVerified    Boolean   @default(false)
   image            String?
-  role             Role      @default(User)
+  role             Role      @default(user)
   banned           Boolean?  @default(false)
   banReason        String?
   banExpires       DateTime?

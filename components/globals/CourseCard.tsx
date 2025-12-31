@@ -139,7 +139,7 @@ export const CourseCardSkeleton = ({
   count: number;
 }) => {
   return (
-    <div className={`${className}`}>
+    <div className={className}>
       {Array.from({ length: count }).map((_, index) => (
         <Card key={index} className="relative gap-0 py-0">
           <Skeleton className="aspect-video h-full w-full rounded-t-xl object-cover" />

@@ -25,7 +25,7 @@ const Navbar = async () => {
     headers: await headers(),
   });
 
-  const isAdmin = session?.user.role === Role.Admin;
+  const isAdmin = session?.user.role === Role.admin;
 
   return (
     <header className="bg-background/95 sticky top-0 z-50 w-full border-b backdrop-blur">

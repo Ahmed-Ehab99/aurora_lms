@@ -56,13 +56,13 @@ export async function SectionCards() {
     {
       title: "Total Signups",
       value: totalSignups,
-      description: "Registered users on the platform",
+      description: "Registered users on the platform, excluding admins",
       icon: IconUsers,
     },
     {
       title: "Total Customers",
       value: totalCustomers,
-      description: "Users who have enrolled in courses",
+      description: "Users who have enrolled in courses, excluding admins",
       icon: IconShoppingCart,
     },
     {

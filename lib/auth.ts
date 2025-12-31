@@ -76,7 +76,7 @@ export const auth = betterAuth({
           return {
             data: {
               ...user,
-              role: Role.Admin,
+              role: Role.admin,
             },
           };
         },
