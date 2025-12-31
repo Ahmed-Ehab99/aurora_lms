@@ -2,7 +2,6 @@ import { prisma } from "@/lib/db";
 import { cache } from "react";
 import "server-only";
 import { requireAdmin } from "./require-admin";
-import { Role } from "@/prisma/generated/prisma/enums";
 
 export const adminGetDashboardStats = cache(async () => {
   await requireAdmin();
@@ -10,18 +9,21 @@ export const adminGetDashboardStats = cache(async () => {
   const [totalSignups, totalCustomers, totalCourses, totalLessons] =
     await Promise.all([
       // Total Signups
-      prisma.user.count({
-        where: {
-          role: Role.user,
-        },
-      }),
+      // 👇 Uncomment this if you nedd to exclude admins
+      // prisma.user.count({
+      //   where: {
+      //     role: Role.user,
+      //   },
+      // }),
+      prisma.user.count(),
       // Total Customers
       prisma.user.count({
         where: {
           enrollment: {
             some: {},
           },
-          role: Role.user,
+          // 👇 Uncomment this if you nedd to exclude admins
+          // role: Role.user,
         },
       }),
       // Total Courses
