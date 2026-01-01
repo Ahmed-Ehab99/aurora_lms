@@ -7,11 +7,11 @@ import Stripe from "stripe";
 export async function POST(req: Request) {
   const body = await req.text();
   const headerList = await headers();
-    const signature = headerList.get("Stripe-Signature");
+  const signature = headerList.get("Stripe-Signature");
 
-    if (!signature) {
-      return new Response("Missing Stripe signature", { status: 400 });
-    }
+  if (!signature) {
+    return new Response("Missing Stripe signature", { status: 400 });
+  }
 
   let event: Stripe.Event;
 
