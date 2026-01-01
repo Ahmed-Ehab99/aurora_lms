@@ -6,6 +6,7 @@ import Logo from "@/public/logo.webp";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
+import MobileNav from "./MobileNav";
 import UserDropdown from "./UserDropdown";
 // import { ThemeToggle } from "@/components/ui/theme-toggle";
 
@@ -43,6 +44,14 @@ const Navbar = async () => {
             </Link>
           </div>
 
+          <div className="md:hidden">
+            <MobileNav
+              navigationItems={navigationItems}
+              isAdmin={isAdmin}
+              session={session}
+            />
+          </div>
+
           <nav className="hidden md:flex md:items-center md:justify-center">
             <div className="flex items-center space-x-4">
               {navigationItems.map((item) => (
@@ -65,26 +74,23 @@ const Navbar = async () => {
             </div>
           </nav>
 
-          <div className="flex items-center justify-end space-x-4">
+          <div className="flex items-center justify-end">
             <AnimatedThemeToggler />
             {/* <ThemeToggle/> */}
 
             {session ? (
-              <UserDropdown
-                name={session.user.name}
-                email={session.user.email}
-                image={session.user.image}
-                isAdmin={isAdmin}
-              />
+              <div className="ml-4 flex items-center justify-center">
+                <UserDropdown
+                  name={session.user.name}
+                  email={session.user.email}
+                  image={session.user.image}
+                  isAdmin={isAdmin}
+                />
+              </div>
             ) : (
-              <>
-                <Button asChild variant="secondary">
-                  <Link href="/login">Login</Link>
-                </Button>
-                <Button asChild>
-                  <Link href="/login">Get Started</Link>
-                </Button>
-              </>
+              <Button asChild className="ml-4 hidden md:block">
+                <Link href="/login">Login</Link>
+              </Button>
             )}
           </div>
         </div>
