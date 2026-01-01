@@ -7,22 +7,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { prisma } from "@/lib/db";
 import { Metadata } from "next";
 import CourseStructure from "./_components/CourseStructure";
 import EditCourseForm from "./_components/EditCourseForm";
 
 type Params = Promise<{ courseId: string }>;
-
-export async function generateStaticParams() {
-  const courses = await prisma.course.findMany({
-    select: { id: true },
-  });
-
-  return courses.map((course) => ({
-    courseId: course.id,
-  }));
-}
 
 export async function generateMetadata({
   params,
