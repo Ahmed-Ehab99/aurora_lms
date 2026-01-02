@@ -191,6 +191,7 @@ const ToolbarToggle = ({
     <Tooltip>
       <TooltipTrigger asChild>
         <Toggle
+          aria-label={action.label}
           size="sm"
           data-state={isPressed ? "on" : "off"}
           pressed={isPressed}

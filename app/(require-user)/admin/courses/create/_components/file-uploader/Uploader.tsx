@@ -10,6 +10,7 @@ import {
   RenderUploadedState,
   RenderUploadingState,
 } from "./RenderState";
+import { Input } from "@/components/ui/input";
 
 interface UploaderProps {
   value?: string;
@@ -70,7 +71,7 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: UploaderProps) => {
       )}
     >
       <CardContent className="flex size-full items-center justify-center">
-        <input {...getInputProps()} />
+        <Input {...getInputProps()} />
         {renderContent()}
       </CardContent>
     </Card>
