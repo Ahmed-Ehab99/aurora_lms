@@ -17,6 +17,7 @@ export async function generateMetadata({
 
   return {
     title: lesson.title,
+    description: lesson.description,
   };
 }
 

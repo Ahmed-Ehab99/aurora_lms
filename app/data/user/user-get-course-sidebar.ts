@@ -15,6 +15,7 @@ export const userGetCourseSidebar = cache(async (slug: string) => {
       id: true,
       title: true,
       fileKey: true,
+      smallDescription: true,
       duration: true,
       level: true,
       category: true,

@@ -80,6 +80,9 @@ export const RenderUploadedState = ({
         onClick={handleRemoveFile}
         disabled={isDeleting}
         className={cn("absolute -top-2 -right-2")}
+        aria-label="Remove file"
+        aria-labelledby="remove-file-button"
+        aria-describedby="remove-file-button"
       >
         {isDeleting ? (
           <Loader size={16} className="animate-spin" />

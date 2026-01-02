@@ -16,6 +16,7 @@ export async function generateMetadata({
 
   return {
     title: course.course.title,
+    description: course.course.smallDescription,
   };
 }
 

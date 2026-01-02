@@ -23,6 +23,7 @@ export async function generateMetadata({
 
   return {
     title: course.title,
+    description: course.smallDescription,
   };
 }
 
