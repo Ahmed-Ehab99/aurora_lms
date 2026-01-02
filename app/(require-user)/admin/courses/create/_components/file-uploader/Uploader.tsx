@@ -1,6 +1,8 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useConstructUrl } from "@/hooks/use-construct-url";
 import { cn } from "@/lib/utils";
 import { useFileUploader } from "../../hooks/use-file-uploader";
@@ -10,7 +12,6 @@ import {
   RenderUploadedState,
   RenderUploadingState,
 } from "./RenderState";
-import { Input } from "@/components/ui/input";
 
 interface UploaderProps {
   value?: string;
@@ -27,7 +28,7 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: UploaderProps) => {
     getInputProps,
     isDragActive,
     handleRemoveFile,
-    open
+    open,
   } = useFileUploader({
     value,
     onChange,
@@ -71,7 +72,20 @@ const Uploader = ({ value, onChange, fileTypeAccepted }: UploaderProps) => {
       )}
     >
       <CardContent className="flex size-full items-center justify-center">
-        <Input {...getInputProps()} />
+        <Label
+          htmlFor="file-uploader-input"
+          className="sr-only"
+          id="file-uploader-label"
+        >
+          File Uploader
+        </Label>
+        <Input
+          {...getInputProps()}
+          id="file-uploader-input"
+          aria-label="File Uploader"
+          aria-labelledby="file-uploader-label"
+          aria-describedby="file-uploader-description"
+        />
         {renderContent()}
       </CardContent>
     </Card>

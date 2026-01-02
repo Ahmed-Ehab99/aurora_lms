@@ -27,21 +27,33 @@ const AdminCardMenu = ({ id, slug, onDelete, title }: AdminCardMenuProps) => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="secondary" size="icon">
-            <MoreVertical size={16} className="text-primary" />
+          <Button
+            variant="secondary"
+            size="icon"
+            aria-label={`Course options for ${title}`}
+          >
+            <MoreVertical
+              size={16}
+              className="text-primary"
+              aria-hidden="true"
+            />
+            <span className="sr-only">Open course options menu</span>
           </Button>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="w-48" align="end">
           <DropdownMenuItem asChild className="cursor-pointer">
-            <Link href={`/admin/courses/${id}/edit`}>
-              <Pencil size={16} className="mr-2" />
+            <Link
+              href={`/admin/courses/${id}/edit`}
+              aria-label={`Edit ${title}`}
+            >
+              <Pencil size={16} className="mr-2" aria-hidden="true" />
               Edit Course
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild className="cursor-pointer">
-            <Link href={`/courses/${slug}`}>
-              <Eye size={16} className="mr-2" />
+            <Link href={`/courses/${slug}`} aria-label={`Preview ${title}`}>
+              <Eye size={16} className="mr-2" aria-hidden="true" />
               Preview Course
             </Link>
           </DropdownMenuItem>
@@ -51,8 +63,13 @@ const AdminCardMenu = ({ id, slug, onDelete, title }: AdminCardMenuProps) => {
             onSelect={() => {
               setIsOpen(true);
             }}
+            aria-label={`Delete ${title}`}
           >
-            <Trash size={16} className="text-destructive mr-2" />
+            <Trash
+              size={16}
+              className="text-destructive mr-2"
+              aria-hidden="true"
+            />
             Delete Course
           </DropdownMenuItem>
         </DropdownMenuContent>

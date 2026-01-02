@@ -79,6 +79,9 @@ export function NavMain({
                   isActive={isActive}
                 >
                   <Link
+                    aria-label={item.title}
+                    aria-labelledby={`nav-main-${item.title}`}
+                    aria-describedby={`nav-main-${item.title}-description`}
                     href={item.url}
                     onClick={() => {
                       if (isMobile) setOpenMobile(false);

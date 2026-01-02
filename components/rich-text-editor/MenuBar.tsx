@@ -191,13 +191,15 @@ const ToolbarToggle = ({
     <Tooltip>
       <TooltipTrigger asChild>
         <Toggle
-          aria-label={action.label}
           size="sm"
           data-state={isPressed ? "on" : "off"}
           pressed={isPressed}
           onPressedChange={() => action.action(editor)}
+          aria-label={action.label}
+          aria-pressed={isPressed}
         >
-          <Icon />
+          <Icon aria-hidden="true" />
+          <span className="sr-only">{action.label}</span>
         </Toggle>
       </TooltipTrigger>
       <TooltipContent>{action.label}</TooltipContent>
@@ -225,8 +227,10 @@ const ToolbarButton = ({
           type="button"
           onClick={() => action.action(editor)}
           disabled={!editorState[action.isDisabled]}
+          aria-label={action.label}
         >
-          <Icon />
+          <Icon aria-hidden="true" />
+          <span className="sr-only">{action.label}</span>
         </Button>
       </TooltipTrigger>
       <TooltipContent>{action.label}</TooltipContent>
@@ -234,7 +238,13 @@ const ToolbarButton = ({
   );
 };
 
-const Divider = () => <div className="bg-border mx-2 h-6 w-px" />;
+const Divider = () => (
+  <div
+    className="bg-border mx-2 h-6 w-px"
+    role="separator"
+    aria-orientation="vertical"
+  />
+);
 
 const MenuBar = ({ editor }: MenuBarProps) => {
   const editorState = useEditorState({
@@ -304,7 +314,11 @@ const MenuBar = ({ editor }: MenuBarProps) => {
 
   return (
     <TooltipProvider>
-      <div className="border-input bg-card flex flex-wrap items-center gap-1 rounded-t-lg border-b p-2">
+      <div
+        className="border-input bg-card flex flex-wrap items-center gap-1 rounded-t-lg border-b p-2"
+        role="toolbar"
+        aria-label="Text formatting toolbar"
+      >
         {TOGGLE_ACTIONS.map((action, index) => (
           <ToolbarToggle
             key={index}
